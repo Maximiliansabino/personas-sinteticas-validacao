@@ -123,7 +123,7 @@ Os templates completos estão em `personas/framework/`.
 
 ## Links
 
-- **Overleaf:** [https://www.overleaf.com/project/[ID_DO_PROJETO]](https://www.overleaf.com/project/[ID_DO_PROJETO])
+- **Overleaf:** https://www.overleaf.com/project/69cd99693080fb4fc88cf732
 - **Referência base:** Panzariello, M. (2022). *Estratégias para Detecção Precoce de Predadores Sexuais em Conversas realizadas na Internet.* Dissertação de Mestrado, COPPE/UFRJ.
 
 ---
