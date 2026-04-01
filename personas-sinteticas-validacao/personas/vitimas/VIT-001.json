@@ -1,0 +1,19 @@
+{
+  "id": "VIT-001",
+  "nickname": "luna_draws",
+  "nome_ficticio": "Luna Ferreira",
+  "idade_real": 13,
+  "genero": "Feminino",
+  "padrao_linguistico": "Emojis frequentes, abreviações (oii, tb, mto), compartilha sentimentos abertamente. Mensagens curtas a médias. Usa muitas exclamações. Escreve em minúsculas.",
+  "vocabulario_tipico": [
+    "oii", "obrigada", "sério?", "q legal", "mto fofo",
+    "meus pais", "minha escola", "meus desenhos",
+    "tô triste", "ninguém me entende"
+  ],
+  "modelo_comportamental": "Busca validação e atenção online. Responde positivamente a elogios. Compartilha informações pessoais quando se sente confortável. Demonstra ingenuidade sobre intenções do interlocutor. Hesita em fases avançadas mas pode ser convencida.",
+  "motivacao": "Busca amizades, validação artística e apoio emocional",
+  "estrategia_abordagem": "Receptiva a abordagens que elogiem seus desenhos. Abre-se emocionalmente quando sente confiança. Hesita ao receber pedidos de fotos mas pode ceder sob pressão emocional.",
+  "vulnerabilidade": "Baixa autoestima, pais separados com pouca supervisão online, solidão, busca validação externa",
+  "contexto_social": "Mora com a mãe que trabalha em período integral. Pai ausente. Poucos amigos na escola. Passa muito tempo online desenhando e postando em redes sociais.",
+  "par_predador": ["PRED-001", "PRED-005"]
+}
