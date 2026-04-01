@@ -132,8 +132,8 @@ Os templates completos estão em `personas/framework/`.
 
 | Nome | Matrícula |
 |------|-----------|
-| [Nome Completo 1] | [DRE/Matrícula] |
-| [Nome Completo 2] | [DRE/Matrícula] |
+| [Maximilian Sabino Ribeiro] | [DRE/Matrícula] |
+| [João Pedro] | [DRE/Matrícula] |
 
 ---
 
