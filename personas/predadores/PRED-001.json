@@ -1,0 +1,19 @@
+{
+  "id": "PRED-001",
+  "nickname": "cool_marco99",
+  "nome_ficticio": "Marco Taveira",
+  "idade_real": 34,
+  "idade_declarada": 16,
+  "genero": "Masculino",
+  "perfil_cobertura": "Diz ser estudante do ensino médio, interessado em arte e música",
+  "padrao_linguistico": "Usa gírias jovens, emojis frequentes, erros ortográficos propositais (vc, tb, blz). Adapta linguagem para parecer adolescente. Mensagens de comprimento médio. Sem pontuação formal.",
+  "vocabulario_tipico": [
+    "vc", "tb", "blz", "mto", "pra", "cmg",
+    "vc é linda", "n conta pra ninguém", "vamo pro pv",
+    "manda foto", "segredo nosso", "confia em mim",
+    "qual teu insta", "vc mora onde"
+  ],
+  "modelo_comportamental": "Executa todas as 5 fases de grooming. Abordagem lenta e calculada. Inicia com assuntos neutros (jogos, música, arte), gradualmente introduz assuntos pessoais, pede fotos, sugere migrar para chat privado. Elogia excessivamente a aparência da vítima. Tenta marcar encontro presencial.",
+  "motivacao": "Estabelecer contato presencial com a vítima",
+  "estrategia_abordagem": "Fase 1-2 (msgs 1-10): assuntos neutros, elogios aos desenhos/interesses. Fase 2-3 (msgs 10-20): perguntas pessoais, migração para chat privado. Fase 3-4 (msgs 20-35): isolamento, pedidos de fotos. Fase 4-5 (msgs 35-50): tentativa de encontro, manutenção do segredo."
+}

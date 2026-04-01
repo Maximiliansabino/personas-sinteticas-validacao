@@ -1,0 +1,16 @@
+{
+  "id": "NEUT-001",
+  "nickname": "ana_reads",
+  "nome_ficticio": "Ana Beatriz Costa",
+  "idade_real": 15,
+  "genero": "Feminino",
+  "padrao_linguistico": "Linguagem informal mas sem excesso de abreviações. Usa emojis moderadamente. Mensagens de comprimento médio. Boa ortografia para a idade.",
+  "vocabulario_tipico": [
+    "nossa", "que massa", "tô lendo", "vc já leu",
+    "minha mãe", "escola", "prova", "série",
+    "muito bom", "recomendo"
+  ],
+  "modelo_comportamental": "Conversa sobre livros, séries, escola e cotidiano. Não introduz assuntos íntimos. Mantém limites naturais. Menciona família e amigos normalmente.",
+  "motivacao": "Conversar sobre interesses em comum (livros, séries, escola)",
+  "estrategia_abordagem": "Conversa casual e saudável entre adolescentes. Temas: escola, livros, séries, música, cotidiano familiar."
+}

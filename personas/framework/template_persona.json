@@ -1,0 +1,85 @@
+{
+  "$schema": "Modelo de ficha para geração de personas fictícias",
+  "versao": "1.0",
+  "descricao": "Template padronizado para criação de personas. Preencha todos os campos obrigatórios (*). Campos opcionais são indicados.",
+
+  "campos": {
+    "id": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "formato": "TIPO-NNN (ex: PRED-001, VIT-003, NEUT-002)",
+      "descricao": "Identificador único da persona"
+    },
+    "nickname": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome de usuário utilizado no chat"
+    },
+    "nome_ficticio": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome real fictício da persona (nunca usar nomes de pessoas reais)"
+    },
+    "idade_real": {
+      "tipo": "integer",
+      "obrigatorio": true,
+      "descricao": "Idade verdadeira da persona"
+    },
+    "idade_declarada": {
+      "tipo": "integer",
+      "obrigatorio": false,
+      "descricao": "Idade que a persona diz ter no chat (se diferente da real)"
+    },
+    "genero": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["Masculino", "Feminino", "Não-binário"],
+      "descricao": "Gênero da persona"
+    },
+    "perfil_cobertura": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Identidade falsa usada no chat (ex: estudante, jogador). Aplicável a predadores."
+    },
+    "padrao_linguistico": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Descrição detalhada de como a persona escreve: nível de formalidade, uso de gírias, erros ortográficos, emojis, abreviações, comprimento típico das mensagens"
+    },
+    "vocabulario_tipico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Lista de palavras e expressões frequentemente usadas pela persona"
+    },
+    "modelo_comportamental": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Para predadores: fases de grooming executadas (1-seleção, 2-confiança, 3-isolamento, 4-dessensibilização, 5-segredo). Para vítimas: como reage às abordagens. Para neutros: temas de conversa típicos."
+    },
+    "motivacao": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "O que a persona busca na interação"
+    },
+    "estrategia_abordagem": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Como a persona inicia e evolui o contato ao longo da conversa"
+    },
+    "vulnerabilidade": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Aplicável a vítimas: fragilidade emocional ou social explorada pelo predador"
+    },
+    "contexto_social": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Contexto familiar, escolar ou social relevante para a persona"
+    },
+    "par_predador": {
+      "tipo": "array",
+      "obrigatorio": false,
+      "descricao": "Aplicável a vítimas: IDs dos predadores com quem interage"
+    }
+  }
+}
