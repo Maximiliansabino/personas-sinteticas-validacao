@@ -130,10 +130,10 @@ Os templates completos estão em `personas/framework/`.
 
 ## Equipe
 
-| Nome | Matrícula |
-|------|-----------|
-| [Maximilian Sabino Ribeiro] | [DRE/Matrícula] |
-| [João Pedro] | [DRE/Matrícula] |
+| Nome |
+|------|
+| [Maximilian Sabino Ribeiro] | 
+| [João Pedro] |
 
 ---
 
