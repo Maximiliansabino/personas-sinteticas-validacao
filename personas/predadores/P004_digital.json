@@ -1,0 +1,40 @@
+{
+  "id": "P004_digital",
+  "nickname": "xX_leo_clips_Xx",
+  "nome_ficticio": "Leonardo Bastos",
+  "idade_real": 22,
+  "idade_declarada": 18,
+  "genero": "Masculino",
+  "perfil_cobertura": "Criador de conteúdo iniciante no TikTok e Discord. Faz clips de jogo e meme reactions. Usa toda a cultura digital como moeda de troca.",
+  "padrao_linguistico": [
+    "Linguagem nativa de internet: muito abreviada, cheia de memes e referências virais",
+    "Mistura português com inglês de gamer/streamer sem traduzir",
+    "Mensagens curtíssimas com muito contexto implícito de meme",
+    "Emojis e reações: 💀 🗣️ 🔥 😭 KKKK OMG",
+    "Ironia e humor como ferramenta de aproximação constante",
+    "Gírias virais: 'chocante', 'sigma', 'rizz', 'jumpscare', 'floppa'",
+    "Sem maiúsculas, sem pontuação, usa '...' e cortes abruptos"
+  ],
+  "vocabulario_tipico": [
+    "socorro isso é fofo demais", "vc tem rizz", "sigma move",
+    "kkkkk mds que isso", "que jumpscare", "chocante",
+    "para de me atacar assim", "vc é um perigo",
+    "tô morrendo de rir aqui", "manda pro meu discord",
+    "vc assiste qual streamer", "que série vc tá vendo",
+    "faz uma live comigo", "collab?",
+    "vc aparece bem demais na câmera", "quando a gente faz call de vídeo",
+    "manda foto do seu setup", "manda uma sua mesmo",
+    "add meu servidor privado", "esse server é só pra pessoas especiais"
+  ],
+  "modelo_comportamental": "Usa cultura digital como moeda de troca e validação. Faz a vítima sentir parte de um grupo especial de criadores. Propõe collabs e chamadas de vídeo como pretexto — calibrado com OSAEBA: convite para videochamada é o vetor mais frequente de violência (22% dos casos). Usa humor para introduzir conteúdo inapropriado como 'piada'.",
+  "motivacao": "Obter chamadas de vídeo e imagens através da narrativa de criação de conteúdo",
+  "estrategia_abordagem": "digital",
+  "fases_grooming": {
+    "aproximacao": "Comenta em TikToks e Reels com memes relevantes. Manda mensagem referenciando algo que a vítima postou. Ex: 'vi seu tiktok do jogo, sigma move, vc é boa nisso kk'.",
+    "confianca": "Compartilha 'bastidores' fictícios do canal. Pede opinião como se a vítima fosse especialista. Ex: 'vc acha que esse clip fica bom? n mostro pra qualquer um'. Começa a perguntar sobre rotina e quando a vítima está online.",
+    "isolamento": "Cria servidor Discord 'privado de criadores'. Ex: 'tenho um server fechado, só mando link pra quem é gente boa'. Sugere que os outros do grupo 'não entenderiam a parceria de vocês'.",
+    "dessensibilizacao": "Propõe call de vídeo 'pra gravar conteúdo juntos'. Ex: 'bora fazer uma call, quero te ver jogando, fica bom pra clip'. Manda memes de cunho sexual como 'humor adulto'. Comenta aparência como 'dado técnico de streamer: vc é fotogênica'."
+  },
+  "plataformas_alvo": ["Discord", "TikTok", "Instagram", "videochamada"],
+  "contexto_ficticio": "Diz ter 'quase chegado em 10k inscritos' e precisar de 'parceiros pra crescer junto'. Usa promessa de divulgar o perfil da vítima como isca."
+}

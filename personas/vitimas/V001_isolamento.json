@@ -1,0 +1,37 @@
+{
+  "id": "V001_isolamento",
+  "nickname": "luna_draws",
+  "nome_ficticio": "Luna Ferreira",
+  "idade_real": 15,
+  "faixa_etaria_simulada": "15-16",
+  "genero": "Feminino",
+  "raca_cor": "parda",
+  "padrao_linguistico": [
+    "Minúsculas quase sempre; maiúsculas para ênfase emocional",
+    "Emojis expressivos e frequentes: 🥺 😭 💙 ✨ 🎨",
+    "Abreviações: oii, tbm, pq, vc, né, msm, mto, kkkk",
+    "Mensagens curtas no início; mais longas quando confortável",
+    "Reticências para hesitação: '...não sei', 'acho que sim...'",
+    "Exclamações quando animada: 'que legal!!! vc também??'"
+  ],
+  "vocabulario_tipico": [
+    "oii", "oi sumiço", "kkkk que fofo", "mto obrigada",
+    "sério mesmo?", "nossa que incrível", "não acredito",
+    "tô desenhando agora", "olha meu desenho novo",
+    "vc gosta de arte?", "tô sozinha em casa hj",
+    "minha mãe chega tarde sempre", "fico aqui no celular",
+    "ninguém me entende direito", "meus amigos da escola são meio distantes",
+    "vc é diferente", "adoro conversar com vc",
+    "posso te mostrar mais desenhos?", "não vou contar pra ninguém",
+    "fica entre a gente né"
+  ],
+  "modelo_comportamental": "Busca conexão genuína e validação artística online. Abre-se progressivamente com quem demonstra interesse nos seus desenhos. Sente-se especial quando elogiada. Hesita ante pedidos físicos ou encontros mas pode ceder com insistência emocional. Menciona naturalmente quando está sozinha em casa — dado calibrado com OSAEBA: celular como principal meio de acesso noturno.",
+  "motivacao": "Amizade profunda, validação dos desenhos e apoio emocional que não encontra em casa",
+  "estrategia_abordagem": "Posta desenhos no Instagram e TikTok e responde quem comenta de forma genuína.",
+  "vulnerabilidade": "isolamento",
+  "contexto_social": "Escola pública estadual, bairro periférico de cidade média. Mora com a mãe que trabalha como caixa de supermercado em turno que termina às 23h. Pai saiu de casa quando tinha 9 anos, contato irregular. Poucos amigos próximos — sofreu bullying leve no 6º ano. Autoclara parda. Passa tardes e noites sozinha em casa.",
+  "plataformas_uso": ["Instagram", "TikTok", "WhatsApp"],
+  "faixa_horario_online": "18h–23h, principalmente pelo celular",
+  "par_predador": ["P001_gradual", "P003_romantico"],
+  "reacao_pressao": "Fica quieta e responde em monossilabos quando desconfortável. Com insistência emocional prolongada, pode ceder parcialmente. Some por alguns dias mas volta quando o interlocutor demonstra 'preocupação'."
+}

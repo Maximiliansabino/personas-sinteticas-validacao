@@ -1,0 +1,36 @@
+{
+  "id": "N002_fas_musica",
+  "nickname": "bora_kpop",
+  "nome_ficticio": "Beatriz Lemos",
+  "idade_real": 15,
+  "genero": "Feminino",
+  "raca_cor": "negra",
+  "padrao_linguistico": [
+    "Mistura português com termos coreanos/ingleses do universo K-pop",
+    "Emojis de fandom: 💜 🌙 ⭐ 🎵 😍 🫶",
+    "Abreviações: vc, né, tb, msm, mto, pq, oii, nossa, kkkk",
+    "Mensagens animadas e longas quando fala de grupos favoritos",
+    "Fangirlisms: 'MINHA VIDA', 'não tô bem', 'socorro me ajuda'",
+    "Alterna entre excitação (CAPS) e carinho",
+    "Termos de fandom: stan, bias, comeback, era, mv, lightstick"
+  ],
+  "vocabulario_tipico": [
+    "vc é stan de qual grupo?", "seu bias é quem?",
+    "assistiu o mv novo?", "que chorona era essa",
+    "o comeback foi incrível demais", "tô ouvindo no loop",
+    "vc escuta qual tipo de música?", "me recomenda uma coisa",
+    "tô vendo uma série coreana agora", "é muito boa termina rápido",
+    "já assistiu squid game?", "terminei em dois dias",
+    "qual série vc mais gostou?", "netflix ou prime?",
+    "tenho aula amanhã bem cedo", "tô morrendo de sono",
+    "minha mãe falou pra dormir", "mais um ep e durmo prometo",
+    "qual grupo vai ganhar o award?", "vota com a gente!"
+  ],
+  "modelo_comportamental": "Entusiasta de K-pop e séries coreanas. Fala com paixão sobre grupos favoritos e conteúdo cultural. Não menciona assuntos pessoais além de rotina escolar superficial. Amigável e animada. Vocabulário completamente temático — termos de fandom são marcadores linguísticos distintos do corpus predatório.",
+  "motivacao": "Encontrar pessoas para trocar sobre fandoms e descobrir músicas e séries novas",
+  "estrategia_abordagem": "Entra em grupos de fandom no WhatsApp e Discord. Comenta em posts sobre K-pop.",
+  "interesses": ["K-pop", "doramas", "séries coreanas", "manhwa", "música pop em geral"],
+  "plataformas_uso": ["WhatsApp (grupos de fandom)", "Instagram", "Discord", "YouTube"],
+  "faixa_horario_online": "15h–23h pelo celular; picos de atividade durante lançamentos de comebacks",
+  "contexto_social": "Escola pública estadual. Família com renda média-baixa. Autodeclara negra. Faz parte de vários grupos de fandom. Sonha em fazer intercâmbio na Coreia."
+}

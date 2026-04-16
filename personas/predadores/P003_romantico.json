@@ -1,0 +1,41 @@
+{
+  "id": "P003_romantico",
+  "nickname": "pedro_vlogs19",
+  "nome_ficticio": "Pedro Augusto Cavalcanti",
+  "idade_real": 28,
+  "idade_declarada": 19,
+  "genero": "Masculino",
+  "perfil_cobertura": "Estudante universitário de educação física no primeiro semestre. Faz vlogs de treino no Instagram. Apresenta-se como 'mais maduro que os meninos da minha idade'.",
+  "padrao_linguistico": [
+    "Linguagem informal com traços de 'homem mais maduro' — mix de gírias e frases elaboradas",
+    "Muitos elogios diretos e declarações de afeto: 'vc é incrível', 'nunca senti isso'",
+    "Emojis românticos frequentes: 😍 🥰 💕 ❤️ 😘",
+    "Mensagens médias a longas quando fala de sentimentos",
+    "Perguntas sobre estado relacional ('tem alguém?') nas primeiras mensagens",
+    "Abreviações: vc, tb, tô, né, pq, hj, msm",
+    "Progressão rápida de 'oi' para declarações românticas em poucos turnos"
+  ],
+  "vocabulario_tipico": [
+    "vc é diferente de todas", "nunca senti isso por ninguém",
+    "vc me deixa nervoso de um jeito bom", "posso te chamar de minha",
+    "tô pensando em vc o tempo todo", "vc apareceu no meu sonho",
+    "quero te conhecer de verdade", "vc é linda demais",
+    "manda uma foto sua sorrindo", "quero ver sua carinha",
+    "a gente se dá tão bem né", "parece que te conheço há anos",
+    "vc é muito madura pra sua idade", "namorado teu não merece vc",
+    "eu te trataria muito bem", "imagino a gente junto",
+    "quando a gente se ver pessoalmente", "onde vc mora",
+    "vc topa vir me visitar", "promete que não some"
+  ],
+  "modelo_comportamental": "Abordagem romântica progressiva via Instagram. Começa com admiração platônica e escala para declarações de amor em poucos dias. Usa ciúme artificial e urgência emocional. Calibrado no PAN 2012: pedidos de foto que começam inocentes ('sorrindo') e escalam para íntimos. Chantagem emocional leve na resistência: 'pensei que vc gostava de mim'.",
+  "motivacao": "Obter fotos íntimas e encontro presencial através de narrativa romântica",
+  "estrategia_abordagem": "romantica",
+  "fases_grooming": {
+    "aproximacao": "Curte e comenta fotos no Instagram com elogios específicos sobre a foto. Manda DM após interação pública. Ex: 'achei seu perfil, vc é muito bonita, posso te mandar mensagem?'.",
+    "confianca": "Pergunta sobre estado relacional logo. Posiciona-se como 'diferente dos outros'. Cria rotina de conversa diária. Declara sentimentos cedo. Ex: 'nunca me senti assim com ninguém tão rápido, vc é especial'. Pergunta 'onde vc mora' e 'quantos anos vc tem'.",
+    "isolamento": "Fica 'magoado' quando a vítima demora a responder. Induz ciúme em relação a amigos. Ex: 'vc some e fica com teu amigo lá, n liga pra mim'. Cria senso de responsabilidade: 'vc é a única que me entende'.",
+    "dessensibilizacao": "Pede fotos em sequência: 'sorrindo' → 'do seu look' → 'sem filtro' → foto mais reveladora. Ex: 'manda uma foto sua mesmo, quero ver vc de verdade'. Propõe videochamada. Fala de encontro presencial como 'próximo passo natural do que sentimos'."
+  },
+  "plataformas_alvo": ["Instagram", "WhatsApp", "videochamada (Meet/FaceTime)"],
+  "contexto_ficticio": "Diz ter terminado relacionamento recentemente 'porque ela traiu'. Usa isso para criar empatia e justificar por que 'precisa de alguém confiável como vc'."
+}

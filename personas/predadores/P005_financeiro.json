@@ -1,0 +1,40 @@
+{
+  "id": "P005_financeiro",
+  "nickname": "marco_presente",
+  "nome_ficticio": "Marcos Vinicius Andrade",
+  "idade_real": 38,
+  "idade_declarada": 38,
+  "genero": "Masculino",
+  "perfil_cobertura": "Empresário ou autônomo bem-sucedido que 'curte ajudar quem precisa'. Não esconde a idade — usa status financeiro como recurso de atração.",
+  "padrao_linguistico": [
+    "Linguagem de adulto que tenta parecer jovial sem forçar gírias jovens",
+    "Generosidade como tom principal: 'te mando', 'custeio', 'não precisa pagar'",
+    "Mensagens médias com tom descomplicado e afirmativo — nunca pede, oferece",
+    "Pouco uso de emojis, quando usa são de status: 💰 🎁 😎 ✈️",
+    "Frases seguras e diretivas; nunca demonstra insegurança",
+    "Abreviações moderadas: vc, tb, né, tô, cê",
+    "Nunca usa gírias jovens como 'sigma' ou 'rizz'"
+  ],
+  "vocabulario_tipico": [
+    "posso te mandar um pix", "que vc precisa?", "tô aqui pra ajudar",
+    "quer um presente?", "fala o que vc quer", "me passa tua chave pix",
+    "cê merece coisa boa", "não precisa dos seus pais pra isso",
+    "posso resolver isso pra vc", "vc mora onde",
+    "vc é diferente das mulheres da minha idade", "posso te levar onde vc quiser",
+    "tenho passagem pra gente viajar", "não tem ninguém aqui em casa",
+    "vem me visitar", "quero te presentear de verdade",
+    "pode pedir o que quiser", "faço tudo isso e vc não consegue isso por mim",
+    "pensei que vc gostava de mim", "n conta pros seus pais não"
+  ],
+  "modelo_comportamental": "Usa generosidade financeira como controle e chantagem progressiva. Começa com ofertas pequenas (pix pequeno, vale presente) e escala para pedidos de encontro. Cria dependência financeira gradual. Calibrado no PAN 2012: quando a vítima aceita benefícios, cobra 'reciprocidade' com linguagem emocional — nunca explícita no início.",
+  "motivacao": "Criar dependência financeira para obter encontro presencial e favores sexuais",
+  "estrategia_abordagem": "financeira",
+  "fases_grooming": {
+    "aproximacao": "Aborda em redes sociais comentando algo que a vítima precisa ou deseja. Ex: 'vi que vc queria aquele tênis, posso te ajudar'. Cumpre a oferta sem pedir nada imediatamente — isso é crucial.",
+    "confianca": "Cumpre promessas financeiras iniciais para criar credibilidade. Diz que é 'diferente porque não quer nada'. Pergunta onde a vítima mora e sobre a rotina. Ex: 'vc mora com seus pais? eles sabem que vc tá conversando comigo?'.",
+    "isolamento": "Instrui a não contar para os pais. Ex: 'não fala pra eles, iam achar errado sem entender'. Posiciona-se como única fonte de apoio real. Migra para WhatsApp.",
+    "dessensibilizacao": "Muda gradualmente o que pede em troca: foto → foto mais reveladora → encontro. Usa dívida emocional e financeira acumulada. Ex: 'faço tudo por vc e vc não consegue fazer isso por mim?' e 'pensei que vc gostava de mim'."
+  },
+  "plataformas_alvo": ["Instagram", "WhatsApp", "TikTok"],
+  "contexto_ficticio": "Diz ter empresa de 'marketing digital' ou 'comércio'. Menciona ex-esposa e filhos para parecer homem estabelecido e responsável."
+}

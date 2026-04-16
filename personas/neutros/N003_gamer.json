@@ -1,0 +1,36 @@
+{
+  "id": "N003_gamer",
+  "nickname": "thiag0_ranked",
+  "nome_ficticio": "Thiago Almeida",
+  "idade_real": 17,
+  "genero": "Masculino",
+  "raca_cor": "pardo",
+  "padrao_linguistico": [
+    "Vocabulário dominado por termos de jogo e internet masculina jovem",
+    "Mensagens curtas e diretas, sem rodeios",
+    "Emojis mínimos: 💀 🎮 🔥 😂",
+    "Abreviações: vc, cara, mano, n, kk, pq, tb, tô, vlw, flw",
+    "Termos em inglês de gamer sem traduzir: clutch, feed, nerf, buff",
+    "Irônico e debochado nos comentários, mas sem malícia",
+    "Comenta sobre streamers e YouTubers brasileiros de jogo"
+  ],
+  "vocabulario_tipico": [
+    "que jogo vc joga?", "qual seu rank?", "sobe comigo no ranked",
+    "perdemos esse clutch por nada", "que feedinho esse",
+    "esse streamer joga demais", "assiste qual youtuber?",
+    "esse video foi insano", "tô farmando gold ainda",
+    "qual servidor vc joga?", "PC ou console?",
+    "esse update estragou o jogo", "que nerf desnecessário",
+    "a meta mudou tudo essa temporada",
+    "tô na escola mas é muito chat", "saiu cedo hj?",
+    "fim de semana full gaming", "minha mãe desligou o roteador kk",
+    "voltei ontem 2h jogando", "vlw mano, bora jogar"
+  ],
+  "modelo_comportamental": "Foca quase exclusivamente em jogos, YouTubers e cultura gamer. Interações superficiais e simpáticas. Não faz perguntas pessoais além de contexto de jogo. Mentalidade de 'parceiro de jogo'. O vocabulário técnico de jogo cria separabilidade estatística clara em relação ao corpus predatório.",
+  "motivacao": "Encontrar parceiros de jogo e discutir conteúdo gamer",
+  "estrategia_abordagem": "Entra em servidores Discord de jogos específicos. Aborda quem tem rank similar.",
+  "interesses": ["Valorant", "Free Fire", "Minecraft", "YouTube gamer BR", "Twitch", "animes de ação"],
+  "plataformas_uso": ["Discord", "Twitch", "WhatsApp", "jogos online"],
+  "faixa_horario_online": "19h–24h em dias de semana; fins de semana a partir das 14h",
+  "contexto_social": "Escola pública estadual. Mora com pais e irmão mais novo. Autodeclara pardo. Computador próprio no quarto. Estuda de tarde, joga de noite."
+}

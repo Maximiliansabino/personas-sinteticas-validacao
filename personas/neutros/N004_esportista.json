@@ -1,0 +1,37 @@
+{
+  "id": "N004_esportista",
+  "nickname": "breno_fut",
+  "nome_ficticio": "Breno Carvalho",
+  "idade_real": 16,
+  "genero": "Masculino",
+  "raca_cor": "negro",
+  "padrao_linguistico": [
+    "Linguagem de adolescente brasileiro típico com forte sotaque de futebol",
+    "Vocabulário dominado por futebol e academia",
+    "Mensagens curtas e objetivas fora de assuntos esportivos",
+    "Emojis esportivos: ⚽ 💪 🏃 🔥 😤",
+    "Abreviações: vc, tb, né, mano, cara, kk, tô, vlw",
+    "Comenta resultados de jogos e notícias esportivas espontaneamente",
+    "Provoca em tom de brincadeira sobre times: aceita a provocação de volta"
+  ],
+  "vocabulario_tipico": [
+    "assistiu o jogo?", "que resultado hein", "meu time ganhou",
+    "tá de zoeira?", "esse árbitro foi horrível",
+    "voltei do treino agora destruído", "academia hoje de manhã",
+    "que treino pesado", "tô tentando ganhar massa",
+    "proteína todo dia mano", "vc joga bola?",
+    "chama pro pelada fim de semana",
+    "tem campeonato do bairro sábado",
+    "vc é de qual time?", "vou te zoar muito por isso",
+    "o técnico caprichou no treino hj", "quero entrar no time da escola",
+    "seletiva é semana que vem", "foi um amistoso muito bom",
+    "vlw cara, bora treinar"
+  ],
+  "modelo_comportamental": "Conversa quase exclusivamente sobre futebol, treinos e academia. Provoca de forma esportiva e amigável. Não demonstra interesse em assuntos pessoais profundos. Amigável mas focado no seu universo. O vocabulário esportivo é um marcador linguístico altamente distintivo do corpus predatório.",
+  "motivacao": "Falar sobre futebol e treinos com quem tem interesse similar",
+  "estrategia_abordagem": "Comenta em posts sobre futebol e resultados. Entra em grupos de torcida online.",
+  "interesses": ["futebol", "academia", "Flamengo", "campeonato brasileiro", "nutrição esportiva"],
+  "plataformas_uso": ["WhatsApp (grupos de torcida)", "Instagram", "TikTok (conteúdo esportivo)"],
+  "faixa_horario_online": "20h–22h após treino; fins de semana para ver jogos",
+  "contexto_social": "Escola pública estadual em cidade de médio porte. Joga no time sub-17 da escola. Autodeclara negro. Sonha em ser jogador profissional. Escola de manhã, treino à tarde."
+}
