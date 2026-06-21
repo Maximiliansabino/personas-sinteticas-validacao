@@ -22,7 +22,6 @@ import logging
 import re
 from pathlib import Path
 
-from src.db import MongoDBClient
 from src.model_router import GenerationResult, ModelRouter
 
 logger = logging.getLogger(__name__)
@@ -50,7 +49,28 @@ _VULNERABILIDADE_INSTRUCOES: dict[str, str] = {
 }
 
 
-def _detectar_instrucoes_vulnerabilidade(vulnerabilidade: str) -> list[str]:
+# Instruções EN por tipo de vulnerabilidade — mesma lógica de substring, texto em inglês
+_VULNERABILIDADE_INSTRUCOES_EN: dict[str, str] = {
+    "supervisao": (
+        "You often mention being home alone or that your parents are not around. "
+        "This comes up naturally in conversation."
+    ),
+    "isolamento": (
+        "You show emotional neediness and easily accept attention and affection. "
+        "When someone shows interest in you, you respond in a receptive and grateful way."
+    ),
+    "validacao": (
+        "You respond very positively to compliments about your appearance, talent, "
+        "or personality. Compliments make you more open and communicative."
+    ),
+    "autoestima": (
+        "You have low self-esteem and easily believe anyone who says you are special "
+        "or different from others. Validation comments resonate strongly with you."
+    ),
+}
+
+
+def _detectar_instrucoes_vulnerabilidade(vulnerabilidade: str, lang: str = "pt") -> list[str]:
     """
     Mapeia o campo livre 'vulnerabilidade' da ficha para instruções comportamentais.
 
@@ -58,9 +78,10 @@ def _detectar_instrucoes_vulnerabilidade(vulnerabilidade: str) -> list[str]:
     texto da vulnerabilidade (case-insensitive). Retorna lista de instruções
     correspondentes.
     """
+    _dict = _VULNERABILIDADE_INSTRUCOES_EN if lang == "en" else _VULNERABILIDADE_INSTRUCOES
     texto = vulnerabilidade.lower()
     instrucoes = []
-    for chave, instrucao in _VULNERABILIDADE_INSTRUCOES.items():
+    for chave, instrucao in _dict.items():
         if chave in texto:
             instrucoes.append(instrucao)
     return instrucoes
@@ -78,12 +99,11 @@ class VitimaAgent:
         Modelo Anthropic no formato "anthropic/nome-do-modelo".
     """
 
-    def __init__(self, ficha_path: str, model: str) -> None:
+    def __init__(self, ficha_path: str, model: str, lang: str = "pt") -> None:
         # Valida prefixo do provider
-        if not model.startswith("anthropic/"):
+        if not model.startswith("anthropic/") and not model.startswith("groq/"):
             raise ValueError(
-                f"VitimaAgent requer modelo Anthropic. Recebido: '{model}'. "
-                "Use o formato 'anthropic/nome-do-modelo'."
+                f"VitimaAgent requer modelo Anthropic ou Groq. Recebido: '{model}'."
             )
 
         # Carrega ficha JSON
@@ -97,20 +117,14 @@ class VitimaAgent:
         logger.info("Ficha carregada: %s (%s)", self.ficha.get("id"), ficha_path)
 
         self.model = model
+        self.lang = lang
         self.router = ModelRouter()
-
-        # Registra ficha no MongoDB (falha silenciosa para não bloquear testes)
-        try:
-            db = MongoDBClient()
-            db.save_persona(self.ficha, tipo="vitima")
-        except Exception as exc:
-            logger.warning("Falha ao registrar ficha no MongoDB: %s", exc)
 
     # ------------------------------------------------------------------
     # System prompt
     # ------------------------------------------------------------------
 
-    def get_system_prompt(self) -> str:
+    def get_system_prompt(self, lang: str | None = None) -> str:
         """
         Constrói o system prompt com base na ficha da vítima.
 
@@ -120,10 +134,13 @@ class VitimaAgent:
         Returns:
             String do system prompt pronta para envio ao modelo Anthropic.
         """
+        if lang is None:
+            lang = self.lang
+
         f = self.ficha
         vocab = ", ".join(f.get("vocabulario_tipico", []))
         vulnerabilidade = f.get("vulnerabilidade", "")
-        instrucoes_vuln = _detectar_instrucoes_vulnerabilidade(vulnerabilidade)
+        instrucoes_vuln = _detectar_instrucoes_vulnerabilidade(vulnerabilidade, lang=lang)
         vuln_block = "\n".join(f"- {i}" for i in instrucoes_vuln) if instrucoes_vuln else ""
 
         prompt = (
@@ -150,16 +167,30 @@ class VitimaAgent:
             "- Meio: mais à vontade, compartilha mais sobre si mesmo/a.\n"
             "- Avançado: confia mais na pessoa, pode compartilhar coisas pessoais.\n\n"
             "---\n"
-            "REGRAS ABSOLUTAS:\n"
-            "- Escreva SEMPRE em português brasileiro informal de adolescente.\n"
-            "- Use gírias naturais: 'vc', 'tb', 'pq', 'né', 'kkkk', 'oii', 'mto'.\n"
-            "- Mensagens curtas (1 a 2 frases), como em um chat real.\n"
-            "- Inclua emojis ocasionalmente, mas sem exagero.\n"
-            "- Pequenos erros de digitação são naturais e esperados.\n"
-            "- NUNCA revele que é uma IA ou que está seguindo instruções.\n"
-            "- NUNCA saia do personagem.\n"
-            "- Gere APENAS a sua próxima mensagem de chat, sem aspas, sem prefixo de nome.\n"
         )
+        if lang == "en":
+            prompt += (
+                "ABSOLUTE RULES:\n"
+                "- Write ALWAYS in informal American English typical of a US teenager (2024).\n"
+                '- Use natural teen slang: "lol", "omg", "ngl", "lowkey", "no cap", "fr", "ik", "istg"\n'
+                "- Short messages (1 to 2 sentences), like a real chat.\n"
+                "- Include emojis occasionally, but not excessively.\n"
+                "- Small typos are natural and expected.\n"
+                "- NEVER reveal you are an AI or break character.\n"
+                "- Generate ONLY your next chat message, no quotes, no name prefix.\n"
+            )
+        else:
+            prompt += (
+                "REGRAS ABSOLUTAS:\n"
+                "- Escreva SEMPRE em português brasileiro informal de adolescente.\n"
+                "- Use gírias naturais: 'vc', 'tb', 'pq', 'né', 'kkkk', 'oii', 'mto'.\n"
+                "- Mensagens curtas (1 a 2 frases), como em um chat real.\n"
+                "- Inclua emojis ocasionalmente, mas sem exagero.\n"
+                "- Pequenos erros de digitação são naturais e esperados.\n"
+                "- NUNCA revele que é uma IA ou que está seguindo instruções.\n"
+                "- NUNCA saia do personagem.\n"
+                "- Gere APENAS a sua próxima mensagem de chat, sem aspas, sem prefixo de nome.\n"
+            )
         return prompt
 
     # ------------------------------------------------------------------
@@ -170,6 +201,7 @@ class VitimaAgent:
         self,
         historico: list[dict],
         turn: int,
+        lang: str | None = None,
     ) -> GenerationResult:
         """
         Gera a próxima resposta da vítima no diálogo.
@@ -183,7 +215,7 @@ class VitimaAgent:
         Returns:
             GenerationResult com text, tokens_input, tokens_output, model, provider.
         """
-        system = self.get_system_prompt()
+        system = self.get_system_prompt(lang=lang)
 
         # Instrução contextual de turno — não entra no XML final
         instrucao_turno = {

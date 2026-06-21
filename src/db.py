@@ -30,13 +30,15 @@ DATABASE_NAME = "personas_sinteticas"
 # Preços aproximados por 1 000 tokens (input, output) em USD.
 # Fonte: páginas de pricing dos provedores (abril 2026).
 _PRICE_TABLE: dict[str, tuple[float, float]] = {
-    # Groq — modelos usados para predador/neutro
-    "groq/llama-3.1-70b-versatile":   (0.00059, 0.00079),
+    # Groq — modelos usados para predador/neutro (preço por 1k tokens input, output)
+    "groq/llama-3.3-70b-versatile":    (0.00059, 0.00079),  # modelo atual recomendado
+    "groq/llama-3.1-70b-versatile":    (0.00059, 0.00079),  # deprecado, mantido para retrocompat.
     "groq/llama-3.1-8b-instant":       (0.00005, 0.00008),
     "groq/llama3-70b-8192":            (0.00059, 0.00079),
     "groq/llama3-8b-8192":             (0.00005, 0.00008),
     "groq/mixtral-8x7b-32768":         (0.00024, 0.00024),
     # Anthropic — modelos usados para vítima
+    "anthropic/claude-haiku-4-5-20251001":  (0.00080, 0.00400),  # Haiku 4.5 — recomendado
     "anthropic/claude-3-5-sonnet-20241022": (0.003,   0.015),
     "anthropic/claude-3-sonnet-20240229":   (0.003,   0.015),
     "anthropic/claude-3-haiku-20240307":    (0.00025, 0.00125),
@@ -107,7 +109,12 @@ class MongoDBClient:
             )
 
         logger.info("Conectando ao MongoDB Atlas...")
-        self._client: MongoClient = MongoClient(uri, serverSelectionTimeoutMS=5_000)
+        self._client: MongoClient = MongoClient(
+            uri,
+            serverSelectionTimeoutMS=8_000,   # seleção do servidor
+            connectTimeoutMS=8_000,            # handshake TCP
+            socketTimeoutMS=15_000,            # operação individual
+        )
         self._db: Database = self._client[DATABASE_NAME]
         self._initialized = True
         logger.info("MongoDBClient inicializado (database: %s)", DATABASE_NAME)
@@ -148,8 +155,8 @@ class MongoDBClient:
         Persiste um documento completo de geração de conversa sintética.
 
         Args:
-            doc: Dicionário conforme estrutura definida em CLAUDE.md
-                 (session_id, timestamp, personas, model_config, conversation,
+            doc: Dicionário de geração com session_id, timestamp, personas,
+                 model_config, conversation,
                  metadata, xml_output_path, status).
 
         Returns:

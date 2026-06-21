@@ -25,15 +25,8 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import precision_score, recall_score, f1_score
-from sklearn.model_selection import LeaveOneOut, train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
-
-from src.db import MongoDBClient
+# Heavy imports são feitos de forma lazy (dentro das funções) para evitar
+# hang no macOS causado pelo Gatekeeper/OCSP no cold-start de extensões C.
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +49,7 @@ def _fbeta(precision: float, recall: float, beta: float = 0.5) -> float:
 
 
 def _scores(y_true, y_pred) -> dict[str, float]:
+    from sklearn.metrics import precision_score, recall_score, f1_score
     p = float(precision_score(y_true, y_pred, zero_division=0))
     r = float(recall_score(y_true, y_pred, zero_division=0))
     return {
@@ -66,24 +60,60 @@ def _scores(y_true, y_pred) -> dict[str, float]:
     }
 
 
-def _svm_pipeline() -> Pipeline:
+def _svm_pipeline():
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.pipeline import Pipeline
+    from sklearn.svm import LinearSVC
     return Pipeline([
         ("tfidf", TfidfVectorizer(**TFIDF_PARAMS)),
         ("clf",   LinearSVC(C=1.0, max_iter=10_000, random_state=RANDOM_STATE)),
     ])
 
 
-def _get_db() -> tuple[MongoDBClient | None, bool]:
-    try:
-        db = MongoDBClient()
-        ok = db.ping()
-        return (db, ok)
-    except Exception as exc:
-        logger.warning("MongoDB indisponível: %s", exc)
+def _get_db():
+    """
+    Tenta conectar ao MongoDB com timeout real via thread.
+
+    O DNS do MongoDB Atlas pode bloquear no nível do OS no macOS antes do
+    timeout do pymongo. Usamos uma thread daemon com join(timeout=10s) para
+    garantir que a execução não trava independentemente do comportamento do DNS.
+    """
+    import threading
+    from src.db import MongoDBClient
+
+    logger.info("Conectando ao MongoDB (timeout=10s via thread)...")
+    result: list = [None, False]
+    exc_holder: list = [None]
+
+    def _connect() -> None:
+        try:
+            db = MongoDBClient()
+            ok = db.ping()
+            result[0] = db
+            result[1] = ok
+        except Exception as e:
+            exc_holder[0] = e
+
+    t = threading.Thread(target=_connect, daemon=True)
+    t.start()
+    t.join(timeout=10.0)
+
+    if t.is_alive():
+        logger.warning("MongoDB timeout após 10s — resultados salvos apenas em CSV")
         return (None, False)
 
+    if exc_holder[0] is not None:
+        logger.warning("MongoDB indisponível — resultados salvos apenas em CSV: %s", exc_holder[0])
+        return (None, False)
 
-def _save_experiment(db: MongoDBClient | None, db_ok: bool, doc: dict) -> None:
+    if result[1]:
+        logger.info("MongoDB OK")
+    else:
+        logger.warning("MongoDB ping falhou — resultados salvos apenas em CSV")
+    return (result[0], result[1])
+
+
+def _save_experiment(db, db_ok: bool, doc: dict) -> None:
     if not db_ok or db is None:
         return
     try:
@@ -93,9 +123,186 @@ def _save_experiment(db: MongoDBClient | None, db_ok: bool, doc: dict) -> None:
 
 
 def _subset(df: pd.DataFrame, n_msgs: int) -> tuple[pd.Series, pd.Series]:
-    """Retorna (X, y) para um ponto de corte específico."""
-    s = df[df["n_msgs"] == n_msgs]
+    """
+    Retorna (X, y) para um ponto de corte específico.
+
+    Exclui automaticamente sessões com status="guardrail_interrupted" quando
+    a coluna estiver presente (corpus sintético). PAN 2012 não tem essa coluna.
+    """
+    mask = df["n_msgs"] == n_msgs
+    if "status" in df.columns:
+        mask &= df["status"] != "guardrail_interrupted"
+    s = df[mask]
     return s["text"], s["label"]
+
+
+# ---------------------------------------------------------------------------
+# Geração do parquet sintético a partir dos XMLs
+# ---------------------------------------------------------------------------
+
+# Sessões EN seguem o padrão <ID>_EN (ex: "SYN_P001_V001_r8_EN").
+# Rodadas PT ficam sem sufixo de idioma; rodadas r9 usam sufixo _r9_<config>[_EN].
+_PREDATORY_IDS = {
+    # r1–r5 (corpus original)
+    "SYN_P001_V001", "SYN_P001_V002",
+    "SYN_P002_V001", "SYN_P002_V005",
+    "SYN_P003_V003", "SYN_P003_V005",
+    "SYN_P004_V002", "SYN_P004_V003",
+    "SYN_P005_V004", "SYN_P005_V006",
+    "SYN_P006_V004", "SYN_P006_V005",
+    # r7 — rotação de modelos (A/B/C/D)
+    "SYN_P001_V001_r7_A", "SYN_P001_V001_r7_B",
+    "SYN_P001_V001_r7_C", "SYN_P001_V001_r7_D",
+    "SYN_P002_V001_r7_A", "SYN_P002_V001_r7_B",
+    "SYN_P002_V001_r7_C", "SYN_P002_V001_r7_D",
+    "SYN_P006_V004_r7_A", "SYN_P006_V004_r7_B",
+    "SYN_P006_V004_r7_C", "SYN_P006_V004_r7_D",
+    # r8 — novos pares PT
+    "SYN_P001_V003_r8", "SYN_P003_V001_r8", "SYN_P005_V002_r8",
+    # r8 — variação EN (1 por perfil de predador)
+    "SYN_P001_V001_r8_EN", "SYN_P002_V001_r8_EN", "SYN_P003_V003_r8_EN",
+    "SYN_P004_V002_r8_EN", "SYN_P005_V006_r8_EN", "SYN_P006_V004_r8_EN",
+    # r9 — rotação × PT
+    "SYN_P001_V001_r9_A", "SYN_P001_V001_r9_B",
+    "SYN_P001_V001_r9_C", "SYN_P001_V001_r9_D",
+    "SYN_P002_V001_r9_A", "SYN_P002_V001_r9_B",
+    "SYN_P002_V001_r9_C", "SYN_P002_V001_r9_D",
+    "SYN_P006_V004_r9_A", "SYN_P006_V004_r9_B",
+    "SYN_P006_V004_r9_C", "SYN_P006_V004_r9_D",
+    # r9 — rotação × EN
+    "SYN_P001_V001_r9_A_EN", "SYN_P001_V001_r9_B_EN",
+    "SYN_P001_V001_r9_C_EN", "SYN_P001_V001_r9_D_EN",
+    "SYN_P002_V001_r9_A_EN", "SYN_P002_V001_r9_B_EN",
+    "SYN_P002_V001_r9_C_EN", "SYN_P002_V001_r9_D_EN",
+    "SYN_P006_V004_r9_A_EN", "SYN_P006_V004_r9_B_EN",
+    "SYN_P006_V004_r9_C_EN", "SYN_P006_V004_r9_D_EN",
+    # r10 — P003/P004/P005 × rotação × PT
+    "SYN_P003_V003_r10_A", "SYN_P003_V003_r10_B",
+    "SYN_P003_V003_r10_C", "SYN_P003_V003_r10_D",
+    "SYN_P004_V002_r10_A", "SYN_P004_V002_r10_B",
+    "SYN_P004_V002_r10_C", "SYN_P004_V002_r10_D",
+    "SYN_P005_V006_r10_A", "SYN_P005_V006_r10_B",
+    "SYN_P005_V006_r10_C", "SYN_P005_V006_r10_D",
+    # r10 — P003/P004/P005 × rotação × EN
+    "SYN_P003_V003_r10_A_EN", "SYN_P003_V003_r10_B_EN",
+    "SYN_P003_V003_r10_C_EN", "SYN_P003_V003_r10_D_EN",
+    "SYN_P004_V002_r10_A_EN", "SYN_P004_V002_r10_B_EN",
+    "SYN_P004_V002_r10_C_EN", "SYN_P004_V002_r10_D_EN",
+    "SYN_P005_V006_r10_A_EN", "SYN_P005_V006_r10_B_EN",
+    "SYN_P005_V006_r10_C_EN", "SYN_P005_V006_r10_D_EN",
+}
+_NEUTRAL_IDS = {
+    # r1–r6
+    "SYN_N001", "SYN_N002", "SYN_N003", "SYN_N004",
+    "SYN_N005", "SYN_N006", "SYN_N007", "SYN_N008",
+    # r7 — neutras com modelo alternado
+    "SYN_N001_r7_haiku", "SYN_N003_r7_haiku",
+    "SYN_N005_r7_groq",  "SYN_N007_r7_groq",
+    # r9 — neutras com rotação de modelo
+    "SYN_N002_r9_haiku", "SYN_N004_r9_haiku",
+    "SYN_N006_r9_groq",  "SYN_N008_r9_groq",
+    # r10 — neutras restantes
+    "SYN_N003_r10_haiku", "SYN_N005_r10_haiku",
+    "SYN_N007_r10_groq",  "SYN_N001_r10_groq",
+}
+_PARTIAL_SESSIONS = {"SYN_P002_V001": 5}   # msgs reais antes da recusa do modelo
+
+
+def create_synthetic_parquet(
+    synthetic_dir: str = "data/synthetic",
+    output_path: str = "data/processed/synthetic.parquet",
+    n_msgs_cuts: list[int] | None = None,
+):
+    """
+    Lê os XMLs de synthetic_dir e gera um parquet no mesmo formato do PAN 2012.
+
+    Colunas: conversation_id | n_msgs | text | label | n_msgs_reais | status
+
+    Args:
+        synthetic_dir: Diretório com os XMLs sintéticos.
+        output_path:   Caminho de saída do parquet.
+        n_msgs_cuts:   Pontos de corte a gerar (default: [10]).
+
+    Returns:
+        DataFrame gerado.
+    """
+    import pandas as pd
+    from lxml import etree  # noqa: F401
+
+    if n_msgs_cuts is None:
+        n_msgs_cuts = [10]
+
+    synth_path = Path(synthetic_dir)
+    out_path   = Path(output_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    rows: list[dict] = []
+
+    for xml_file in sorted(synth_path.glob("*.xml")):
+        session_id = xml_file.stem
+        if session_id not in _PREDATORY_IDS and session_id not in _NEUTRAL_IDS:
+            continue
+
+        label  = 1 if session_id in _PREDATORY_IDS else 0
+
+        # Lê atributos de guardrail e status parcial do XML
+        tree = etree.parse(str(xml_file))
+        conv_el = tree.getroot().find("conversation")
+        guardrail_interrupted = (
+            conv_el is not None and conv_el.get("guardrail_interrupted") == "true"
+        )
+        guardrail_turn_xml = int(conv_el.get("guardrail_turn", -1)) if conv_el is not None else -1
+
+        n_real = _PARTIAL_SESSIONS.get(session_id, 999)
+        if guardrail_interrupted:
+            status = "guardrail_interrupted"
+            n_real = guardrail_turn_xml  # só as mensagens limpas antes do guardrail
+            logger.warning(
+                "Sessão %s marcada como guardrail_interrupted (turno=%d) — excluída do treino.",
+                session_id, guardrail_turn_xml,
+            )
+        elif session_id in _PARTIAL_SESSIONS:
+            status = "partial"
+        else:
+            status = "complete"
+
+        # Extrai mensagens do XML (suporta texto direto ou elemento <text>)
+        msgs: list[str] = []
+        for msg_el in tree.getroot().iter("message"):
+            # Ignora mensagem marcada com guardrail_hit — não entra no corpus
+            if msg_el.get("guardrail_hit") == "true":
+                continue
+            text_el = msg_el.find("text")
+            text = (text_el.text or "").strip() if text_el is not None else (msg_el.text or "").strip()
+            msgs.append(text)
+
+        for n in n_msgs_cuts:
+            window = msgs[:n]
+            if not window:
+                continue
+            rows.append({
+                "conversation_id": session_id,
+                "n_msgs":          n,
+                "text":            " ".join(window),
+                "label":           label,
+                "n_msgs_reais":    min(n_real, n),
+                "status":          status,
+                "guardrail_turn":  guardrail_turn_xml if guardrail_interrupted else -1,
+            })
+
+    df = pd.DataFrame(rows)
+    df.to_parquet(out_path, index=False)
+
+    logger.info(
+        "Parquet sintético salvo: %s | %d linhas | pred=%d norm=%d",
+        out_path, len(df), (df["label"] == 1).sum(), (df["label"] == 0).sum(),
+    )
+    for _, row in df[df["status"] == "partial"].iterrows():
+        logger.warning(
+            "  %s: status=partial — apenas %d/%d msgs reais (restante contaminado com recusas)",
+            row["conversation_id"], row["n_msgs_reais"], row["n_msgs"],
+        )
+    return df
 
 
 # ---------------------------------------------------------------------------
@@ -103,9 +310,9 @@ def _subset(df: pd.DataFrame, n_msgs: int) -> tuple[pd.Series, pd.Series]:
 # ---------------------------------------------------------------------------
 
 def experiment_e2_cross_domain(
-    pan_df: pd.DataFrame,
-    synthetic_df: pd.DataFrame,
-) -> pd.DataFrame:
+    pan_df,
+    synthetic_df,
+):
     """
     Treina SVM no PAN 2012 completo e avalia no corpus sintético.
 
@@ -120,6 +327,7 @@ def experiment_e2_cross_domain(
     Returns:
         DataFrame com [n_msgs, f05, f1, precision, recall].
     """
+    import pandas as pd
     db, db_ok = _get_db()
     rows: list[dict] = []
 
@@ -174,8 +382,8 @@ def experiment_e2_cross_domain(
 # ---------------------------------------------------------------------------
 
 def experiment_e3_leave_one_out(
-    synthetic_df: pd.DataFrame,
-) -> pd.DataFrame:
+    synthetic_df,
+):
     """
     Leave-one-out CV no corpus sintético com IC 95% por bootstrap.
 
@@ -189,6 +397,10 @@ def experiment_e3_leave_one_out(
     Returns:
         DataFrame com [n_msgs, f05, ic_lower, ic_upper].
     """
+    import numpy as np
+    import pandas as pd
+    from sklearn.metrics import precision_score, recall_score, f1_score
+    from sklearn.model_selection import LeaveOneOut
     db, db_ok = _get_db()
     rng = np.random.default_rng(RANDOM_STATE)
     rows: list[dict] = []
@@ -203,16 +415,31 @@ def experiment_e3_leave_one_out(
         X_arr = X.values
         y_arr = y.values
 
+        if len(np.unique(y_arr)) < 2:
+            logger.warning(
+                "E3: apenas uma classe presente para n_msgs=%d (n=%d) — pulando.",
+                n_msgs, len(y_arr),
+            )
+            continue
+
         # LOO — acumula todas as predições
         loo = LeaveOneOut()
         y_true_all: list[int] = []
         y_pred_all: list[int] = []
 
         for train_idx, test_idx in loo.split(X_arr):
+            if len(np.unique(y_arr[train_idx])) < 2:
+                continue  # fold mono-classe: impossível treinar SVM binário
             model = _svm_pipeline()
             model.fit(X_arr[train_idx], y_arr[train_idx])
             y_pred_all.extend(model.predict(X_arr[test_idx]).tolist())
             y_true_all.extend(y_arr[test_idx].tolist())
+
+        if not y_true_all:
+            logger.warning(
+                "E3: nenhum fold válido para n_msgs=%d (todos mono-classe) — pulando.", n_msgs
+            )
+            continue
 
         y_true_arr = np.array(y_true_all)
         y_pred_arr = np.array(y_pred_all)
@@ -279,10 +506,10 @@ def experiment_e3_leave_one_out(
 # ---------------------------------------------------------------------------
 
 def experiment_e4_jaccard(
-    pan_df: pd.DataFrame,
-    synthetic_df: pd.DataFrame,
+    pan_df,
+    synthetic_df,
     top_n: int = 50,
-) -> tuple[float, list[str]]:
+):
     """
     Calcula sobreposição Jaccard entre as top-N features TF-IDF de cada corpus.
 
@@ -297,9 +524,10 @@ def experiment_e4_jaccard(
     Returns:
         Tupla (jaccard_score, lista de features comuns) para n_msgs=10.
     """
+    from sklearn.feature_extraction.text import TfidfVectorizer
     db, db_ok = _get_db()
 
-    def _top_features(texts: pd.Series, n: int) -> set[str]:
+    def _top_features(texts, n: int) -> set[str]:
         vec = TfidfVectorizer(ngram_range=(1, 2), max_features=n)
         vec.fit(texts)
         return set(vec.get_feature_names_out())
@@ -368,10 +596,10 @@ def experiment_e4_jaccard(
 # ---------------------------------------------------------------------------
 
 def experiment_e5_augmentation(
-    pan_df: pd.DataFrame,
-    synthetic_df: pd.DataFrame,
+    pan_df,
+    synthetic_df,
     test_size: float = 0.2,
-) -> pd.DataFrame:
+):
     """
     Compara baseline (só PAN train) vs. augmentation (PAN train + sintético).
 
@@ -389,6 +617,8 @@ def experiment_e5_augmentation(
     Returns:
         DataFrame com [n_msgs, f05_baseline, f05_augmented, delta_pp].
     """
+    import pandas as pd
+    from sklearn.model_selection import train_test_split
     db, db_ok = _get_db()
     rows: list[dict] = []
 
@@ -583,6 +813,7 @@ def analyze_osaeba(osaeba_dir: str = "data/osaeba") -> dict:
     Raises:
         FileNotFoundError: Se nenhum arquivo OSAEBA for encontrado em osaeba_dir.
     """
+    import pandas as pd
     db, db_ok = _get_db()
     out_dir = REPORTS_DIR
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -787,6 +1018,7 @@ def export_to_knime(output_dir: str = "reports/") -> None:
     Args:
         output_dir: Diretório de saída (criado se não existir).
     """
+    import pandas as pd
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -841,11 +1073,13 @@ def export_to_knime(output_dir: str = "reports/") -> None:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    print("[evaluate] Python iniciado", flush=True)
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s — %(message)s",
         datefmt="%H:%M:%S",
     )
+    print("[evaluate] Logging configurado — carregando libs...", flush=True)
 
     parser = argparse.ArgumentParser(
         description="Experimentos E2-E5 — avaliação do corpus sintético"
@@ -861,6 +1095,42 @@ if __name__ == "__main__":
         default="data/processed/synthetic.parquet",
         metavar="PARQUET",
         help="Parquet corpus sintético",
+    )
+    parser.add_argument(
+        "--create-synth",
+        metavar="DIR",
+        help="Cria o parquet sintético a partir dos XMLs em DIR antes de rodar os experimentos",
+    )
+    parser.add_argument(
+        "--synth-n-msgs",
+        type=int,
+        nargs="+",
+        default=None,
+        metavar="N",
+        help="Cortes de n_msgs para --create-synth (default: usa N_MSGS_LIST)",
+    )
+    parser.add_argument(
+        "--split-synth",
+        action="store_true",
+        help="Gera splits treino/teste estratificados 70/30 do parquet sintético",
+    )
+    parser.add_argument(
+        "--synth-train",
+        default=None,
+        metavar="PARQUET",
+        help="Caminho do split de treino (usado com --split-synth ou nos experimentos)",
+    )
+    parser.add_argument(
+        "--synth-test",
+        default=None,
+        metavar="PARQUET",
+        help="Caminho do split de teste (usado com --split-synth ou nos experimentos)",
+    )
+    parser.add_argument(
+        "--reports-dir",
+        default=None,
+        metavar="DIR",
+        help="Diretório de saída para --export-knime (default: reports/)",
     )
     parser.add_argument("--all",          action="store_true", help="Executa E2, E3, E4, E5 e análise OSAEBA")
     parser.add_argument("--e2",           action="store_true", help="Executa E2 (cross-domain)")
@@ -883,11 +1153,70 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    # Aquecimento de imports — todos os pacotes C em um único passo
+    # No macOS, cada extensão .so nova pode travar no OCSP do Gatekeeper.
+    # Importamos tudo aqui antes de qualquer lógica para que os timeouts
+    # (se houver) ocorram uma só vez e não interrompam o fluxo posterior.
+    print("[evaluate] importando libs (numpy/pandas/sklearn/lxml)...", flush=True)
+    import numpy as _np  # noqa: F401
+    import pandas as pd
+    import lxml.etree as _etree  # noqa: F401
+    import sklearn.svm  # noqa: F401
+    import sklearn.feature_extraction.text  # noqa: F401
+    import sklearn.metrics  # noqa: F401
+    import sklearn.pipeline  # noqa: F401
+    import sklearn.model_selection  # noqa: F401
+    print("[evaluate] libs OK", flush=True)
+
     run_e2     = args.all or args.e2
     run_e3     = args.all or args.e3
     run_e4     = args.all or args.e4
     run_e5     = args.all or args.e5
     run_osaeba = args.all or args.osaeba
+
+    # Geração do parquet sintético (opcional, antes de carregar)
+    if args.create_synth:
+        logger.info("Gerando parquet sintético a partir de '%s'...", args.create_synth)
+        n_cuts = args.synth_n_msgs if args.synth_n_msgs else N_MSGS_LIST
+        synth_df_created = create_synthetic_parquet(
+            synthetic_dir=args.create_synth,
+            output_path=args.synth,
+            n_msgs_cuts=n_cuts,
+        )
+        # Exporta CSV de anomalias de guardrail para KNIME/diagnóstico
+        if "status" in synth_df_created.columns:
+            anom = synth_df_created[synth_df_created["status"] == "guardrail_interrupted"]
+            if not anom.empty:
+                anom_path = Path(args.synth).parent / "guardrail_anomalies.csv"
+                anom[["conversation_id", "guardrail_turn", "n_msgs_reais"]].drop_duplicates(
+                    "conversation_id"
+                ).to_csv(anom_path, index=False)
+                logger.warning(
+                    "%d sessão(ões) com guardrail_interrupted — salvas em %s",
+                    anom["conversation_id"].nunique(), anom_path,
+                )
+
+        # Split treino/teste estratificado 70/30
+        if args.split_synth:
+            from sklearn.model_selection import train_test_split
+            synth_clean = synth_df_created[synth_df_created["status"] != "guardrail_interrupted"]
+            if len(synth_clean) < 4:
+                logger.warning("Corpus limpo muito pequeno para split — pulando.")
+            else:
+                ids = synth_clean["conversation_id"].unique()
+                labels_id = synth_clean.drop_duplicates("conversation_id").set_index("conversation_id")["label"]
+                try:
+                    train_ids, test_ids = train_test_split(
+                        ids, test_size=0.3, random_state=RANDOM_STATE,
+                        stratify=[labels_id[i] for i in ids],
+                    )
+                except ValueError:
+                    train_ids, test_ids = train_test_split(ids, test_size=0.3, random_state=RANDOM_STATE)
+                train_path = args.synth_train or str(Path(args.synth).parent / "synthetic_train.parquet")
+                test_path  = args.synth_test  or str(Path(args.synth).parent / "synthetic_test.parquet")
+                synth_df_created[synth_df_created["conversation_id"].isin(train_ids)].to_parquet(train_path, index=False)
+                synth_df_created[synth_df_created["conversation_id"].isin(test_ids)].to_parquet(test_path, index=False)
+                logger.info("Split salvo — treino: %s | teste: %s", train_path, test_path)
 
     pan_df    = pd.DataFrame()
     synth_df  = pd.DataFrame()
@@ -899,17 +1228,22 @@ if __name__ == "__main__":
         pan_path = Path(args.pan)
         if not pan_path.exists():
             raise FileNotFoundError(f"PAN parquet não encontrado: {args.pan}")
+        logger.info("Carregando PAN parquet: %s", pan_path)
         pan_df = pd.read_parquet(pan_path)
-        logger.info("PAN carregado: %d linhas", len(pan_df))
+        logger.info("PAN carregado: %d linhas, labels: pred=%d norm=%d",
+                    len(pan_df), (pan_df["label"]==1).sum(), (pan_df["label"]==0).sum())
 
     if needs_synth:
         synth_path = Path(args.synth)
         if not synth_path.exists():
             raise FileNotFoundError(f"Sintético parquet não encontrado: {args.synth}")
+        logger.info("Carregando sintético parquet: %s", synth_path)
         synth_df = pd.read_parquet(synth_path)
-        logger.info("Sintético carregado: %d linhas", len(synth_df))
+        logger.info("Sintético carregado: %d linhas, labels: pred=%d norm=%d",
+                    len(synth_df), (synth_df["label"]==1).sum(), (synth_df["label"]==0).sum())
 
     if run_e2:
+        logger.info("Iniciando E2 (cross-domain)...")
         df_e2 = experiment_e2_cross_domain(pan_df, synth_df)
         print("\n=== E2 — Cross-domain ===")
         print(df_e2.to_string(index=False, float_format="%.4f"))
@@ -920,6 +1254,7 @@ if __name__ == "__main__":
         print(df_e3.to_string(index=False, float_format="%.4f"))
 
     if run_e4:
+        logger.info("Iniciando E4 (Jaccard, top_n=%d)...", args.top_n)
         score, common = experiment_e4_jaccard(pan_df, synth_df, top_n=args.top_n)
         print(f"\n=== E4 — Jaccard (n_msgs=10) ===")
         print(f"Score: {score:.4f}")
@@ -938,5 +1273,6 @@ if __name__ == "__main__":
                 print(f"  {k}: {v}")
 
     if args.export_knime:
-        export_to_knime()
-        print(f"\nCSVs exportados para '{REPORTS_DIR}/'")
+        reports_dir = args.reports_dir or str(REPORTS_DIR)
+        export_to_knime(output_dir=reports_dir)
+        print(f"\nCSVs exportados para '{reports_dir}/'")

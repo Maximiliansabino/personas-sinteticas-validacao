@@ -20,7 +20,6 @@ import re
 from collections import Counter
 from pathlib import Path
 
-import nltk
 import pandas as pd
 from lxml import etree
 
@@ -40,12 +39,29 @@ _REQUIRED_AUTHORS = 2
 # ---------------------------------------------------------------------------
 
 def _ensure_nltk_stopwords() -> set[str]:
-    """Garante que o corpus de stopwords do nltk está disponível."""
+    """Carrega stopwords do inglês sem depender da API de download do NLTK.
+
+    Lê diretamente o arquivo de texto em ~/nltk_data/corpora/stopwords/english,
+    evitando qualquer chamada de rede (causa de travamentos SSL no macOS).
+    Fallback: tenta a API do NLTK caso o arquivo local não exista.
+    """
+    local_path = Path.home() / "nltk_data" / "corpora" / "stopwords" / "english"
+    if local_path.exists():
+        words = local_path.read_text(encoding="utf-8").splitlines()
+        return {w.strip() for w in words if w.strip()}
+
+    # Fallback: usa API do NLTK (pode exigir conexão de rede)
+    logger.warning(
+        "Arquivo local de stopwords não encontrado em %s. "
+        "Tentando via API do NLTK...",
+        local_path,
+    )
     try:
+        import nltk
         from nltk.corpus import stopwords
         return set(stopwords.words("english"))
     except LookupError:
-        logger.info("Baixando nltk stopwords...")
+        import nltk
         nltk.download("stopwords", quiet=True)
         from nltk.corpus import stopwords
         return set(stopwords.words("english"))
@@ -115,15 +131,17 @@ def _parse_xml(xml_path: str) -> list[dict]:
     """
     Parseia o XML PAN 2012 com lxml.
 
-    Formato esperado::
+    Formato real do PAN 2012::
 
-        <corpus>
+        <conversations>
           <conversation id="conv-id">
-            <message line="1" author="hash...">
-              texto da mensagem
+            <message line="1">
+              <author>hash...</author>
+              <time>03:20</time>
+              <text>texto da mensagem</text>
             </message>
           </conversation>
-        </corpus>
+        </conversations>
 
     Returns:
         Lista de dicionários com keys: id, messages.
@@ -141,10 +159,13 @@ def _parse_xml(xml_path: str) -> list[dict]:
         conv_id = conv_el.get("id", "")
         messages = []
         for msg_el in conv_el.findall("message"):
-            raw_text = (msg_el.text or "").strip()
+            author_el = msg_el.find("author")
+            text_el   = msg_el.find("text")
+            author = (author_el.text or "").strip() if author_el is not None else ""
+            raw_text = (text_el.text or "").strip() if text_el is not None else ""
             messages.append({
                 "line": int(msg_el.get("line", 0)),
-                "author": msg_el.get("author", ""),
+                "author": author,
                 "text": raw_text,
             })
 

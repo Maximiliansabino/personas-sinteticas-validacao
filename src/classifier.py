@@ -24,16 +24,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.pipeline import Pipeline as ImbPipeline
-from imblearn.under_sampling import RandomUnderSampler
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import make_scorer, precision_score, recall_score, f1_score
-from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.model_selection import StratifiedKFold
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
-
-from src.db import MongoDBClient, estimate_cost
 
 logger = logging.getLogger(__name__)
 
@@ -62,78 +58,95 @@ def _fbeta(precision: float, recall: float, beta: float = 0.5) -> float:
     return (1 + b2) * precision * recall / denom
 
 
-def _fbeta_scorer(beta: float = 0.5):
-    """Retorna scorer compatível com sklearn para F-beta."""
-    def _score(estimator, X, y):
-        y_pred = estimator.predict(X)
-        p = precision_score(y, y_pred, zero_division=0)
-        r = recall_score(y, y_pred, zero_division=0)
-        return _fbeta(p, r, beta)
-    return _score
+
+# ---------------------------------------------------------------------------
+# Undersampling manual (sem imblearn)
+# ---------------------------------------------------------------------------
+
+def _undersample(
+    X: pd.Series, y: pd.Series, random_state: int = RANDOM_STATE
+) -> tuple[pd.Series, pd.Series]:
+    """
+    Undersampling aleatório: reduz a classe majoritária ao tamanho da minoritária.
+    Equivalente ao RandomUnderSampler do imblearn, sem dependência externa.
+    """
+    min_count = int(y.value_counts().min())
+    rng = np.random.RandomState(random_state)
+    selected: list[int] = []
+    for label in y.unique():
+        class_idx = y[y == label].index.tolist()
+        chosen = rng.choice(class_idx, size=min_count, replace=False).tolist()
+        selected.extend(chosen)
+    return X.loc[selected], y.loc[selected]
 
 
 # ---------------------------------------------------------------------------
-# Pipelines
+# Pipelines (sklearn puro)
 # ---------------------------------------------------------------------------
 
-def _make_pipeline_svm(balanced: bool) -> ImbPipeline:
-    """
-    Pipeline LinearSVC com TF-IDF.
-    Se balanced=True, aplica RandomUnderSampler antes da classificação.
-    """
-    steps = [("tfidf", TfidfVectorizer(**TFIDF_PARAMS))]
-    if balanced:
-        steps.append(("sampler", RandomUnderSampler(random_state=RANDOM_STATE)))
-    steps.append(("clf", LinearSVC(C=1.0, class_weight=None, max_iter=10_000, random_state=RANDOM_STATE)))
-    return ImbPipeline(steps)
+def _make_pipeline_svm() -> Pipeline:
+    """Pipeline LinearSVC + TF-IDF."""
+    return Pipeline([
+        ("tfidf", TfidfVectorizer(**TFIDF_PARAMS)),
+        ("clf",   LinearSVC(C=1.0, max_iter=10_000, random_state=RANDOM_STATE)),
+    ])
 
 
-def _make_pipeline_nb(balanced: bool) -> ImbPipeline:
-    """
-    Pipeline MultinomialNB com TF-IDF.
-    MultinomialNB requer features não-negativas — sublinear_tf mantém isso.
-    """
-    steps = [("tfidf", TfidfVectorizer(**TFIDF_PARAMS))]
-    if balanced:
-        steps.append(("sampler", RandomUnderSampler(random_state=RANDOM_STATE)))
-    steps.append(("clf", MultinomialNB(alpha=0.1)))
-    return ImbPipeline(steps)
+def _make_pipeline_nb() -> Pipeline:
+    """Pipeline MultinomialNB + TF-IDF."""
+    return Pipeline([
+        ("tfidf", TfidfVectorizer(**TFIDF_PARAMS)),
+        ("clf",   MultinomialNB(alpha=0.1)),
+    ])
 
 
 # ---------------------------------------------------------------------------
 # Cross-validation para um único (pipeline, X, y)
 # ---------------------------------------------------------------------------
 
-def _run_cv(pipeline: ImbPipeline, X: pd.Series, y: pd.Series) -> dict[str, float]:
+def _run_cv(
+    pipeline: Pipeline, X: pd.Series, y: pd.Series, balanced: bool = False
+) -> dict[str, float]:
     """
-    Executa CV estratificada de FOLDS e retorna médias e desvios.
+    CV estratificada com k=CV_FOLDS.
+    Se balanced=True, aplica undersampling *apenas no treino* de cada fold —
+    garantia equivalente ao ImbPipeline do imblearn.
 
     Returns:
         {f05_mean, f05_std, f1_mean, precision_mean, recall_mean}
     """
     skf = StratifiedKFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
 
-    scoring = {
-        "precision": make_scorer(precision_score, zero_division=0),
-        "recall":    make_scorer(recall_score,    zero_division=0),
-        "f1":        make_scorer(f1_score,         zero_division=0),
-        "f05":       _fbeta_scorer(beta=0.5),
-    }
+    f05_scores, f1_scores, prec_scores, rec_scores = [], [], [], []
 
-    cv_results = cross_validate(
-        pipeline, X, y,
-        cv=skf,
-        scoring=scoring,
-        return_train_score=False,
-        n_jobs=-1,
-    )
+    X_arr = X.reset_index(drop=True)
+    y_arr = y.reset_index(drop=True)
+
+    for train_idx, test_idx in skf.split(X_arr, y_arr):
+        X_train, X_test = X_arr.iloc[train_idx], X_arr.iloc[test_idx]
+        y_train, y_test = y_arr.iloc[train_idx], y_arr.iloc[test_idx]
+
+        if balanced:
+            X_train, y_train = _undersample(X_train, y_train)
+
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
+
+        p = precision_score(y_test, y_pred, zero_division=0)
+        r = recall_score(y_test, y_pred, zero_division=0)
+        f1 = f1_score(y_test, y_pred, zero_division=0)
+
+        prec_scores.append(p)
+        rec_scores.append(r)
+        f1_scores.append(f1)
+        f05_scores.append(_fbeta(p, r, beta=0.5))
 
     return {
-        "f05_mean":       float(np.mean(cv_results["test_f05"])),
-        "f05_std":        float(np.std(cv_results["test_f05"])),
-        "f1_mean":        float(np.mean(cv_results["test_f1"])),
-        "precision_mean": float(np.mean(cv_results["test_precision"])),
-        "recall_mean":    float(np.mean(cv_results["test_recall"])),
+        "f05_mean":       float(np.mean(f05_scores)),
+        "f05_std":        float(np.std(f05_scores)),
+        "f1_mean":        float(np.mean(f1_scores)),
+        "precision_mean": float(np.mean(prec_scores)),
+        "recall_mean":    float(np.mean(rec_scores)),
     }
 
 
@@ -141,7 +154,11 @@ def _run_cv(pipeline: ImbPipeline, X: pd.Series, y: pd.Series) -> dict[str, floa
 # Experimento principal
 # ---------------------------------------------------------------------------
 
-def run_experiment(df: pd.DataFrame, experiment_name: str) -> pd.DataFrame:
+def run_experiment(
+    df: pd.DataFrame,
+    experiment_name: str,
+    corpus_tag: str | None = None,
+) -> pd.DataFrame:
     """
     Executa a Estratégia 1 de Panzariello (2022) para todos os pontos de corte.
 
@@ -153,14 +170,21 @@ def run_experiment(df: pd.DataFrame, experiment_name: str) -> pd.DataFrame:
         df:              DataFrame com colunas [conversation_id, n_msgs, text, label].
                          Gerado por src.preprocess.load_pan2012().
         experiment_name: Prefixo usado no experiment_id (ex: "baseline").
+        corpus_tag:      Rótulo do corpus para a coluna ``corpus`` no CSV.
+                         Se None, deriva automaticamente do número de conversas únicas.
 
     Returns:
         DataFrame com todas as métricas por configuração.
     """
+    n_convs = int(df["conversation_id"].nunique()) if "conversation_id" in df.columns else len(df)
+    if corpus_tag is None:
+        corpus_tag = f"pan2012_{n_convs}_convs"
+
     rows: list[dict] = []
 
     try:
-        db = MongoDBClient()
+        from src.db import MongoDBClient as _MongoDBClient, estimate_cost as _estimate_cost  # noqa: F401
+        db = _MongoDBClient()
         db_ok = db.ping()
     except Exception as exc:
         logger.warning("MongoDB indisponível, resultados não serão persistidos: %s", exc)
@@ -206,8 +230,8 @@ def run_experiment(df: pd.DataFrame, experiment_name: str) -> pd.DataFrame:
                     done, total_configs, n_msgs, exp_type, clf_name,
                 )
 
-                pipeline = pipeline_fn(balanced=balanced)
-                metrics = _run_cv(pipeline, X, y)
+                pipeline = pipeline_fn()
+                metrics = _run_cv(pipeline, X, y, balanced=balanced)
 
                 timestamp_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
                 experiment_id = f"{experiment_name}_{exp_type}_{clf_name}_{n_msgs}msgs_{timestamp_str}"
@@ -226,6 +250,8 @@ def run_experiment(df: pd.DataFrame, experiment_name: str) -> pd.DataFrame:
                     "n_total":         n_total,
                     "n_predatory":     n_pred,
                     "n_normal":        n_norm,
+                    "corpus":          corpus_tag,
+                    "n_conversations": n_convs,
                 }
                 rows.append(row)
 
@@ -269,6 +295,13 @@ def _save_csv(df: pd.DataFrame) -> None:
 
     if RESULTS_CSV.exists():
         existing = pd.read_csv(RESULTS_CSV)
+        # Preenche coluna corpus em linhas antigas (antes da introdução da coluna)
+        if "corpus" not in existing.columns:
+            existing["corpus"] = existing["experiment_name"].apply(
+                lambda n: "pan2012_500_convs" if "subset500" in str(n) else "pan2012_unknown"
+            )
+        if "n_conversations" not in existing.columns:
+            existing["n_conversations"] = existing["n_total"] // len(N_MSGS_LIST)
         df = pd.concat([existing, df], ignore_index=True)
 
     df.to_csv(RESULTS_CSV, index=False, float_format="%.4f")

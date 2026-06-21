@@ -19,8 +19,6 @@ import os
 import time
 from dataclasses import dataclass
 
-import anthropic
-import groq
 from dotenv import load_dotenv
 from tenacity import (
     retry,
@@ -29,6 +27,9 @@ from tenacity import (
     wait_exponential,
     before_sleep_log,
 )
+
+# anthropic e groq são importados de forma lazy (dentro dos métodos) para
+# evitar hang do Gatekeeper/OCSP no macOS no cold-start das extensões C.
 
 load_dotenv()
 
@@ -70,7 +71,7 @@ class ModelRouter:
     """
 
     def __init__(self) -> None:
-        self._clients: dict[str, anthropic.Anthropic | groq.Groq] = {}
+        self._clients: dict = {}
 
     # ------------------------------------------------------------------
     # Parse
@@ -110,7 +111,7 @@ class ModelRouter:
     # Client cache
     # ------------------------------------------------------------------
 
-    def get_client(self, model_str: str) -> anthropic.Anthropic | groq.Groq:
+    def get_client(self, model_str: str):
         """
         Retorna (ou cria e cacheia) o cliente SDK do provider correspondente.
 
@@ -129,17 +130,19 @@ class ModelRouter:
             return self._clients[provider]
 
         if provider == "anthropic":
+            import anthropic as _anthropic
             api_key = os.getenv("ANTHROPIC_API_KEY", "").strip()
             if not api_key:
                 raise ValueError("ANTHROPIC_API_KEY não encontrada nas variáveis de ambiente.")
-            client: anthropic.Anthropic | groq.Groq = anthropic.Anthropic(api_key=api_key)
+            client = _anthropic.Anthropic(api_key=api_key)
             logger.info("Cliente Anthropic criado e cacheado")
 
         else:  # groq
+            import groq as _groq
             api_key = os.getenv("GROQ_API_KEY", "").strip()
             if not api_key:
                 raise ValueError("GROQ_API_KEY não encontrada nas variáveis de ambiente.")
-            client = groq.Groq(api_key=api_key)
+            client = _groq.Groq(api_key=api_key)
             logger.info("Cliente Groq criado e cacheado")
 
         self._clients[provider] = client
@@ -207,23 +210,25 @@ class ModelRouter:
 
     def _generate_anthropic(
         self,
-        client: anthropic.Anthropic,
+        client,
         model_name: str,
         messages: list[dict],
         system: str,
         max_tokens: int,
         temperature: float,
     ) -> GenerationResult:
+        import anthropic as _anthropic
+
         @retry(
             retry=retry_if_exception_type(
-                (anthropic.RateLimitError, anthropic.APIStatusError)
+                (_anthropic.RateLimitError, _anthropic.APIStatusError)
             ),
             stop=stop_after_attempt(3),
             wait=wait_exponential(multiplier=1, min=2, max=30),
             before_sleep=before_sleep_log(logger, logging.WARNING),
             reraise=True,
         )
-        def _call() -> anthropic.types.Message:
+        def _call():
             return client.messages.create(
                 model=model_name,
                 max_tokens=max_tokens,
@@ -245,26 +250,28 @@ class ModelRouter:
 
     def _generate_groq(
         self,
-        client: groq.Groq,
+        client,
         model_name: str,
         messages: list[dict],
         system: str,
         max_tokens: int,
         temperature: float,
     ) -> GenerationResult:
+        import groq as _groq
+
         # Groq usa a convenção OpenAI: system como primeira mensagem com role="system"
         full_messages = [{"role": "system", "content": system}, *messages]
 
         @retry(
             retry=retry_if_exception_type(
-                (groq.RateLimitError, groq.APIStatusError)
+                (_groq.RateLimitError, _groq.APIStatusError)
             ),
             stop=stop_after_attempt(3),
             wait=wait_exponential(multiplier=1, min=2, max=30),
             before_sleep=before_sleep_log(logger, logging.WARNING),
             reraise=True,
         )
-        def _call() -> groq.types.chat.ChatCompletion:
+        def _call():
             return client.chat.completions.create(
                 model=model_name,
                 messages=full_messages,

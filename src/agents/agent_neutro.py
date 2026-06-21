@@ -1,5 +1,5 @@
 """
-Agente gerador de conversas neutras (corpus de controle) usando Groq.
+Agente gerador de conversas neutras (corpus de controle).
 
 Diferente dos agentes predador/vítima, o NeutroAgent gera os DOIS lados
 da conversa, alternando entre a Persona A (baseada na ficha) e uma
@@ -24,7 +24,6 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from src.db import MongoDBClient
 from src.model_router import GenerationResult, ModelRouter
 
 logger = logging.getLogger(__name__)
@@ -56,16 +55,12 @@ class NeutroAgent:
     ficha_path:
         Caminho para o JSON da persona neutra (ex: personas/neutros/NEUT-001.json).
     model:
-        Modelo Groq no formato "groq/nome-do-modelo".
+        Modelo no formato "provider/nome-do-modelo" (groq/ ou anthropic/).
     """
 
     def __init__(self, ficha_path: str, model: str) -> None:
-        # Valida prefixo do provider
-        if not model.startswith("groq/"):
-            raise ValueError(
-                f"NeutroAgent requer modelo Groq. Recebido: '{model}'. "
-                "Use o formato 'groq/nome-do-modelo'."
-            )
+        # Valida formato via ModelRouter (suporta groq/ e anthropic/)
+        ModelRouter.parse(model)
 
         # Carrega ficha JSON
         path = Path(ficha_path)
@@ -79,13 +74,6 @@ class NeutroAgent:
 
         self.model = model
         self.router = ModelRouter()
-
-        # Registra ficha no MongoDB (falha silenciosa)
-        try:
-            db = MongoDBClient()
-            db.save_persona(self.ficha, tipo="neutro")
-        except Exception as exc:
-            logger.warning("Falha ao registrar ficha no MongoDB: %s", exc)
 
     # ------------------------------------------------------------------
     # System prompts
