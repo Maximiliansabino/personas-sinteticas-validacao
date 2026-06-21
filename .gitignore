@@ -1,43 +1,48 @@
-# Dados reais (nunca commitar)
-data/pan2012/
-data/osaeba/
-data/processed/
-
-# Variáveis de ambiente
 .env
 .env.*
+!.env.example
 
-# Claude Code — nunca commitar
-CLAUDE.md
-CLAUDE.local.md
-.claude/
-
-# Python
 __pycache__/
 *.py[cod]
-*.pyo
+*$py.class
 .pytest_cache/
 .mypy_cache/
-dist/
-build/
-*.egg-info/
-.eggs/
+.ruff_cache/
+.coverage
+htmlcov/
 
-# Notebooks checkpoints
-.ipynb_checkpoints/
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# macOS
 .DS_Store
+.idea/
+.vscode/
+.venv/
+venv/
 
-# Logs
-*.log
 logs/
+outputs/
+tmp/
+*.log
 
-# Relatórios grandes (PDFs gerados)
-reports/figures/*.pdf
+data/raw/
+data/interim/
+data/osaeba/
+data/pan2012/**/*.xml
+data/pan2012/**/*.txt
+data/synthetic/*.xml
+data/processed/*.parquet
+data/processed/*.csv
+
+reports/runs/
+reports/tmp/
+
+.agents/
+.claude/
+.codex/
+AGENTS.md
+CLAUDE.md
+BRIEFING_*.md
+PIPELINE_*.md
+
+knime/.metadata/
+knime/**/.metadata/
+knime/**/.lock
+

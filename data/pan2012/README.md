@@ -1,18 +1,15 @@
-# Base PAN 2012
+# PAN 2012
 
-Esta pasta deve conter os dados do desafio **Sexual Predator Identification** do PAN 2012.
+A base PAN 2012 nao e distribuida neste repositorio.
 
-## Como obter
+Para reexecutar o pipeline, obtenha os arquivos pelos canais oficiais do
+PAN/CLEF e organize localmente:
 
-1. Acesse: https://pan.webis.de/clef12/pan12-web/sexual-predator-identification.html
-2. Solicite acesso aos dados para fins de pesquisa
-3. Coloque os arquivos XML nesta pasta
+```text
+data/pan2012/train/
+├── pan12-sexual-predator-identification-training-corpus-2012-05-01.xml
+└── pan12-sexual-predator-identification-training-corpus-predators-2012-05-01.txt
+```
 
-## Arquivos esperados
+Esses arquivos permanecem gitignored.
 
-- `training/` — conversas de treinamento (XML)
-- `test/` — conversas de teste (XML)
-- `training-ground-truth.txt` — IDs dos predadores no treino
-- `test-ground-truth.txt` — IDs dos predadores no teste
-
-> **Atenção:** Estes dados NÃO devem ser commitados no Git. O `.gitignore` já está configurado para ignorá-los.

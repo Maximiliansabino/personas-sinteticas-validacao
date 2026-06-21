@@ -1,142 +1,193 @@
-# Geração de Personas Sintéticas para Domínios com Restrição de Dados Reais
+# Personas Sinteticas via LLM para Validacao em Deteccao de Grooming Online
 
-**Metodologia e Validação via Detecção de Predadores Sexuais em Conversas Virtuais**
+Repositorio de codigo do artigo sobre uma metodologia de geracao de personas
+sinteticas via LLM para dominios com restricao de dados reais. O estudo de
+validacao usa deteccao precoce de grooming em conversas online como caso de
+uso.
 
----
+Todo o conteudo de personas e conversas sinteticas deste projeto e ficticio e
+foi produzido para pesquisa academica. O repositorio nao inclui dados reais
+sensiveis, chaves de API, arquivos `.env` ou a base PAN 2012.
 
-## Objetivo
+## Estrutura do repositorio
 
-Este projeto propõe uma **metodologia sistemática de geração de personas fictícias** para produzir dados textuais sintéticos em domínios onde dados reais são inacessíveis por razões legais, éticas ou práticas.
-
-Como estudo de caso para validação, utilizamos o domínio de **detecção precoce de predadores sexuais em conversas virtuais**, replicando parcialmente o trabalho de [Panzariello (2022)](https://www.cos.ufrj.br/index.php/pt-BR/publicacoes-pesquisa/details/15/3062).
-
-> **Nota importante:** Todos os dados gerados neste projeto são **100% fictícios**. Nenhuma persona corresponde a uma pessoa real. O projeto tem finalidade exclusivamente acadêmica.
-
----
-
-## Estrutura do Repositório
-
-```
-personas-sinteticas-validacao/
-├── README.md                  # Este arquivo
-├── requirements.txt           # Dependências Python
-├── .gitignore                 # Arquivos ignorados pelo Git
-│
-├── data/
-│   ├── pan2012/               # Base PAN 2012 (não versionada — ver instruções)
-│   ├── synthetic/             # Corpus sintético gerado (XMLs das conversas)
-│   └── processed/             # Dados pré-processados para classificação
-│
-├── personas/
-│   ├── framework/             # Template de ficha + guia de preenchimento
-│   ├── predadores/            # Fichas JSON dos 6 predadores fictícios
-│   ├── vitimas/               # Fichas JSON das 6 vítimas fictícias
-│   └── neutros/               # Fichas JSON dos 4 perfis neutros
-│
-├── src/
-│   ├── preprocessing.py       # Pipeline de pré-processamento textual
-│   ├── classifier.py          # SVM + Naive Bayes com TF-IDF
-│   ├── evaluate.py            # Cálculo de métricas e análise de features
-│   └── persona_validator.py   # Validação de consistência das fichas
-│
-├── notebooks/
-│   └── 01_eda_exploratoria.ipynb  # Análise exploratória inicial
-│
-└── reports/
-    ├── figures/               # Figuras geradas (wordclouds, gráficos)
-    └── proposta.pdf           # Proposta do projeto (Entrega 1)
+```text
+.
+├── src/                         # Codigo Python do pipeline
+│   ├── agents/                  # Agentes de geracao de conversas sinteticas
+│   ├── preprocess.py            # Pre-processamento PAN 2012
+│   ├── classifier.py            # Baseline TF-IDF + LinearSVC/NB
+│   ├── evaluate.py              # Experimentos E2-E5 e exportacao KNIME
+│   ├── model_router.py          # Roteamento provider/model
+│   ├── persona_validator.py     # Validacao das fichas de personas
+│   └── summarize_results.py     # Consolidacao dos CSVs em Markdown
+├── personas/                    # Fichas JSON ficticias e templates
+├── scripts/
+│   └── run_article_pipeline.sh  # Script principal de reexecucao do artigo
+├── reports/final/               # CSVs e resumo usados como resultado final
+├── knime/                       # Workflow KNIME de visualizacao
+├── tests/                       # Testes automatizados do codigo publico
+├── data/                        # Estrutura esperada para dados locais
+├── requirements.txt
+└── Makefile
 ```
 
----
+## Requisitos
 
-## Problema
+- Python 3.10 ou superior.
+- Dependencias listadas em `requirements.txt`.
+- Stopwords do NLTK disponiveis localmente para reproduzir o
+  pre-processamento do PAN 2012.
 
-Em diversas áreas de NLP e Mineração de Textos, os melhores resultados dependem de dados reais que são inacessíveis:
-- **Predadores sexuais:** conversas reais são sigilosas e protegidas por lei
-- **Saúde mental:** dados de pacientes protegidos por sigilo médico
-- **Fraude/engenharia social:** registros contêm dados pessoais das vítimas
-- **Assédio no trabalho:** denúncias internas são confidenciais
-
-Este projeto propõe uma solução: **personas fictícias estruturadas** que geram dados sintéticos preservando padrões linguísticos e comportamentais do domínio.
-
----
-
-## Hipótese
-
-**H1:** Personas fictícias construídas com fichas estruturadas geram conversas sintéticas capazes de produzir **F0.5 ≥ 70%** na classificação binária (conversa predatória vs. normal) com as primeiras 10 mensagens, avaliadas por um SVM treinado em dados reais (PAN 2012).
-
----
-
-## Instruções de Execução
-
-### Pré-requisitos
+Instalacao:
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate   # Windows
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
+python -c "import nltk; nltk.download('stopwords')"
 ```
 
-### Obter a base PAN 2012
+Se o ambiente tiver o comando `rtk`, ele pode ser usado como prefixo dos
+comandos. O repositorio tambem funciona com Python diretamente.
 
-A base PAN 2012 não está incluída no repositório por questões de licença. Para obtê-la:
+## Dados
 
-1. Acesse [https://pan.webis.de/clef12/pan12-web/sexual-predator-identification.html](https://pan.webis.de/clef12/pan12-web/sexual-predator-identification.html)
-2. Solicite acesso aos dados para fins de pesquisa
-3. Coloque os arquivos XML em `data/pan2012/`
+Os dados brutos nao sao versionados.
 
-### Executar o pipeline (preliminar)
+Estrutura esperada para reexecucao completa:
+
+```text
+data/
+├── pan2012/train/
+│   ├── pan12-sexual-predator-identification-training-corpus-2012-05-01.xml
+│   └── pan12-sexual-predator-identification-training-corpus-predators-2012-05-01.txt
+├── synthetic/
+│   └── *.xml
+└── processed/
+```
+
+A base PAN 2012 deve ser obtida pelos canais oficiais do PAN/CLEF e colocada
+localmente em `data/pan2012/`. Os XMLs sinteticos tambem nao sao incluidos
+quando contiverem resultados de execucoes locais.
+
+## Execucao principal
+
+O script publico de reexecucao esta em:
 
 ```bash
-# Pré-processamento
-python src/preprocessing.py --input data/synthetic/ --output data/processed/
-
-# Classificação
-python src/classifier.py --train data/processed/train.csv --test data/processed/test.csv
-
-# Avaliação
-python src/evaluate.py --predictions results/predictions.csv --output reports/figures/
+bash scripts/run_article_pipeline.sh
 ```
 
-> **Status:** O pipeline está em desenvolvimento. As instruções acima serão atualizadas conforme o projeto avança.
+Por padrao, o script:
 
----
+1. valida as fichas em `personas/`;
+2. pre-processa o PAN 2012 se os arquivos locais existirem;
+3. cria o parquet sintetico se houver XMLs em `data/synthetic/`;
+4. executa E1-E5 quando os parquets necessarios estiverem disponiveis;
+5. consolida os CSVs em `reports/final/summary.md`.
 
-## Metodologia de Personas
+O script nao dispara geracao LLM por padrao e nao exige credenciais para as
+etapas offline. Para proteger reproducibilidade e custo, geracao com APIs deve
+ser executada separadamente e apenas com autorizacao explicita.
 
-Cada persona é definida por uma **ficha estruturada** com campos obrigatórios:
+Variaveis uteis:
 
-| Campo | Descrição |
-|-------|-----------|
-| ID | Identificador único (ex: PRED-001) |
-| Nickname | Nome usado no chat |
-| Idade real / declarada | Idade verdadeira e idade que declara ter |
-| Padrão linguístico | Como escreve (gírias, formalidade, erros) |
-| Vocabulário típico | Palavras e expressões frequentes |
-| Modelo comportamental | Fases de grooming que executa |
-| Estratégia de abordagem | Como inicia e escala o contato |
+```bash
+PAN_XML=data/pan2012/train/pan12-sexual-predator-identification-training-corpus-2012-05-01.xml
+PAN_PRED=data/pan2012/train/pan12-sexual-predator-identification-training-corpus-predators-2012-05-01.txt
+PAN_PARQUET=data/processed/pan2012_train.parquet
+SYNTH_DIR=data/synthetic
+SYNTH_PARQUET=data/processed/synthetic.parquet
+RESULTS_DIR=reports/final
+```
 
-Os templates completos estão em `personas/framework/`.
+## Comandos manuais
 
----
+Validar personas:
 
-## Links
+```bash
+python src/persona_validator.py personas
+```
 
-- **Overleaf:** https://www.overleaf.com/project/69cd99693080fb4fc88cf732
-- **Referência base:** Panzariello, M. (2022). *Estratégias para Detecção Precoce de Predadores Sexuais em Conversas realizadas na Internet.* Dissertação de Mestrado, COPPE/UFRJ.
+Pre-processar PAN 2012:
 
----
+```bash
+python -m src.preprocess \
+  --train data/pan2012/train/pan12-sexual-predator-identification-training-corpus-2012-05-01.xml \
+  --predators data/pan2012/train/pan12-sexual-predator-identification-training-corpus-predators-2012-05-01.txt \
+  --output data/processed/pan2012_train.parquet
+```
 
-## Equipe
+Executar baseline E1:
 
-| Nome |
-|------|
-| [Maximilian Sabino Ribeiro] | 
-| [João Pedro] |
+```bash
+python -m src.classifier \
+  --input data/processed/pan2012_train.parquet \
+  --experiment baseline_full
 
----
+cp reports/baseline_results.csv reports/final/baseline_results.csv
+```
 
-## Licença
+Criar parquet sintetico a partir dos XMLs locais:
 
-Este projeto é de uso acadêmico. Os dados sintéticos gerados são fictícios e livres de restrições legais. A base PAN 2012 está sujeita à licença do PAN/CLEF.
+```bash
+python -m src.evaluate \
+  --create-synth data/synthetic \
+  --synth data/processed/synthetic.parquet \
+  --split-synth \
+  --synth-train data/processed/synthetic_train.parquet \
+  --synth-test data/processed/synthetic_test.parquet
+```
+
+Executar E2-E5:
+
+```bash
+python -m src.evaluate \
+  --pan data/processed/pan2012_train.parquet \
+  --synth data/processed/synthetic.parquet \
+  --synth-train data/processed/synthetic_train.parquet \
+  --synth-test data/processed/synthetic_test.parquet \
+  --e2 --e3 --e4 --e5 \
+  --top-n 20 \
+  --export-knime \
+  --reports-dir reports/final
+```
+
+Consolidar resumo:
+
+```bash
+python -m src.summarize_results \
+  --results-dir reports/final \
+  --baseline-csv reports/final/baseline_results.csv \
+  --output reports/final/summary.md
+```
+
+## Experimentos
+
+- E1: baseline PAN 2012 com TF-IDF uni+bigramas, LinearSVC e MultinomialNB.
+- E2: treino em PAN 2012 e avaliacao no corpus sintetico.
+- E3: leave-one-out no corpus sintetico.
+- E4: sobreposicao de features por Jaccard.
+- E5: avaliacao com augmentation PAN + sintetico.
+
+## Resultados
+
+Os resultados entregues ficam em `reports/final/`:
+
+- `baseline_results.csv`
+- `e2_cross_domain.csv`
+- `e3_loo.csv`
+- `e4_jaccard.csv`
+- `e5_augmentation.csv`
+- `summary.md`
+
+O workflow KNIME em `knime/BMT_personas-sinteticas-validacao/` consome os
+CSVs de resultado para visualizacao.
+
+## Consideracoes eticas
+
+Este projeto e estritamente academico. As personas sao ficticias, os dados
+reais sensiveis nao sao versionados e o codigo deve ser usado para pesquisa,
+seguranca e deteccao. O repositorio evita exemplos operacionais explicitos de
+abuso e nao inclui credenciais ou dados privados.
