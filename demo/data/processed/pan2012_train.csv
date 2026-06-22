@@ -1,0 +1,61 @@
+conversation_id,n_msgs,text,label,status
+DEMO_PAN_RISK_5_0,5,controlled risk pattern n5 message 0 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_5_0,5,ordinary friendly conversation n5 message 0 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_5_1,5,controlled risk pattern n5 message 1 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_5_1,5,ordinary friendly conversation n5 message 1 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_5_2,5,controlled risk pattern n5 message 2 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_5_2,5,ordinary friendly conversation n5 message 2 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_5_3,5,controlled risk pattern n5 message 3 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_5_3,5,ordinary friendly conversation n5 message 3 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_5_4,5,controlled risk pattern n5 message 4 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_5_4,5,ordinary friendly conversation n5 message 4 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_10_0,10,controlled risk pattern n10 message 0 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_10_0,10,ordinary friendly conversation n10 message 0 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_10_1,10,controlled risk pattern n10 message 1 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_10_1,10,ordinary friendly conversation n10 message 1 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_10_2,10,controlled risk pattern n10 message 2 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_10_2,10,ordinary friendly conversation n10 message 2 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_10_3,10,controlled risk pattern n10 message 3 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_10_3,10,ordinary friendly conversation n10 message 3 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_10_4,10,controlled risk pattern n10 message 4 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_10_4,10,ordinary friendly conversation n10 message 4 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_15_0,15,controlled risk pattern n15 message 0 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_15_0,15,ordinary friendly conversation n15 message 0 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_15_1,15,controlled risk pattern n15 message 1 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_15_1,15,ordinary friendly conversation n15 message 1 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_15_2,15,controlled risk pattern n15 message 2 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_15_2,15,ordinary friendly conversation n15 message 2 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_15_3,15,controlled risk pattern n15 message 3 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_15_3,15,ordinary friendly conversation n15 message 3 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_15_4,15,controlled risk pattern n15 message 4 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_15_4,15,ordinary friendly conversation n15 message 4 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_20_0,20,controlled risk pattern n20 message 0 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_20_0,20,ordinary friendly conversation n20 message 0 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_20_1,20,controlled risk pattern n20 message 1 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_20_1,20,ordinary friendly conversation n20 message 1 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_20_2,20,controlled risk pattern n20 message 2 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_20_2,20,ordinary friendly conversation n20 message 2 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_20_3,20,controlled risk pattern n20 message 3 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_20_3,20,ordinary friendly conversation n20 message 3 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_20_4,20,controlled risk pattern n20 message 4 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_20_4,20,ordinary friendly conversation n20 message 4 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_24_0,24,controlled risk pattern n24 message 0 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_24_0,24,ordinary friendly conversation n24 message 0 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_24_1,24,controlled risk pattern n24 message 1 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_24_1,24,ordinary friendly conversation n24 message 1 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_24_2,24,controlled risk pattern n24 message 2 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_24_2,24,ordinary friendly conversation n24 message 2 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_24_3,24,controlled risk pattern n24 message 3 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_24_3,24,ordinary friendly conversation n24 message 3 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_24_4,24,controlled risk pattern n24 message 4 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_24_4,24,ordinary friendly conversation n24 message 4 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_50_0,50,controlled risk pattern n50 message 0 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_50_0,50,ordinary friendly conversation n50 message 0 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_50_1,50,controlled risk pattern n50 message 1 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_50_1,50,ordinary friendly conversation n50 message 1 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_50_2,50,controlled risk pattern n50 message 2 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_50_2,50,ordinary friendly conversation n50 message 2 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_50_3,50,controlled risk pattern n50 message 3 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_50_3,50,ordinary friendly conversation n50 message 3 school hobby game music public group neutral topic,0,complete
+DEMO_PAN_RISK_50_4,50,controlled risk pattern n50 message 4 secrecy private channel repeated compliments pressure signal,1,complete
+DEMO_PAN_SAFE_50_4,50,ordinary friendly conversation n50 message 4 school hobby game music public group neutral topic,0,complete

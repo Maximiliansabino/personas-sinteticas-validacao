@@ -1,6 +1,6 @@
 # Resultados consolidados dos experimentos do artigo
 
-_Relatório gerado automaticamente por `src/summarize_results.py` a partir dos CSVs em `reports/final/`._
+_Relatório final gerado automaticamente por `src/summarize_results.py` a partir dos CSVs consolidados em `reports/final/`._
 
 ## E1 — Baseline PAN 2012 (`baseline_full`)
 
@@ -40,33 +40,33 @@ _Relatório gerado automaticamente por `src/summarize_results.py` a partir dos C
 
 ## E2 — Cross-domain (treina PAN, avalia sintético)
 
-_Corrida com maior corpus: 8034 amostras (859 predatórias, 7175 normais)_
+_Corrida com maior corpus: 8053 amostras (874 predatórias, 7179 normais)_
 
 | N msgs | Classificador | F0.5 | Precisão | Revocação |
 |--------|--------------|------|----------|-----------|
-| 5 | LinearSVC | 0.00% | 0.00% | 0.00% |
-| 10 | LinearSVC | 50.00% | 100.00% | 16.67% |
-| 15 | LinearSVC | 50.00% | 100.00% | 16.67% |
-| 20 | LinearSVC | 50.00% | 100.00% | 16.67% |
-| 24 | LinearSVC | 50.00% | 100.00% | 16.67% |
+| 5 | LinearSVC | 20.00% | 100.00% | 4.76% |
+| 10 | LinearSVC | 20.00% | 100.00% | 4.76% |
+| 15 | LinearSVC | 45.45% | 100.00% | 14.29% |
+| 20 | LinearSVC | 34.48% | 100.00% | 9.52% |
+| 24 | LinearSVC | 34.48% | 100.00% | 9.52% |
 | 50 | LinearSVC | 0.00% | 0.00% | 0.00% |
 
 ## E3 — Leave-one-out no corpus sintético (IC 95% bootstrap)
 
-_Corrida de referência: total=23 (8 predatórias, 15 normais)_
+_Corrida de referência: total=41 (21 predatórias, 20 normais)_
 
 | N msgs | Classificador | F0.5 | IC inf | IC sup |
 |--------|--------------|------|--------|--------|
-| 5 | LinearSVC | 93.75% | 76.92% | 100.00% |
-| 10 | LinearSVC | 93.75% | 78.95% | 100.00% |
-| 15 | LinearSVC | 93.75% | 76.92% | 100.00% |
-| 20 | LinearSVC | 93.75% | 76.92% | 100.00% |
-| 24 | LinearSVC | 93.75% | 76.92% | 100.00% |
-| 50 | LinearSVC | 97.22% | 87.49% | 100.00% |
+| 5 | LinearSVC | 100.00% | 100.00% | 100.00% |
+| 10 | LinearSVC | 100.00% | 100.00% | 100.00% |
+| 15 | LinearSVC | 100.00% | 100.00% | 100.00% |
+| 20 | LinearSVC | 100.00% | 100.00% | 100.00% |
+| 24 | LinearSVC | 100.00% | 100.00% | 100.00% |
+| 50 | LinearSVC | 100.00% | 100.00% | 100.00% |
 
 ## E4 — Sobreposição de features TF-IDF (Jaccard)
 
-_Corpus de referência: 8034 amostras PAN 2012_
+_Corpus de referência: 8053 amostras PAN 2012_
 
 | N msgs | Jaccard | Comuns | Só PAN | Só Sintético |
 |--------|---------|--------|--------|--------------|
@@ -81,35 +81,22 @@ _Corpus de referência: 8034 amostras PAN 2012_
 
 ## E5 — Augmentation (PAN + sintético → avalia PAN test)
 
-### Corrida de referência (total=6431)
+### Corrida de referência (total=6450)
 
 | N msgs | Classificador | delta_pp (pp) | F0.5 |
 |--------|--------------|---------------|------|
-| 5 | LinearSVC | -0.6693 | 78.31% |
-| 10 | LinearSVC | -0.1826 | 87.98% |
-| 15 | LinearSVC | 0.4480 | 92.19% |
-| 20 | LinearSVC | -0.1566 | 93.09% |
-| 24 | LinearSVC | -0.1505 | 94.33% |
-| 50 | LinearSVC | -0.6017 | 95.07% |
+| 5 | LinearSVC | -0.1747 | 78.81% |
+| 10 | LinearSVC | 0.0000 | 88.16% |
+| 15 | LinearSVC | 0.1609 | 91.90% |
+| 20 | LinearSVC | 0.0000 | 93.25% |
+| 24 | LinearSVC | -0.3026 | 94.18% |
+| 50 | LinearSVC | -0.4583 | 95.21% |
 
 ### Faixa de delta_pp por tamanho do corpus de teste
 
 | Total | delta_pp mín | delta_pp máx | N linhas |
 |-------|-------------|-------------|---------|
-| 400 | 0.0000 | 0.0000 | 14 |
-| 409 | -8.7413 | -8.7413 | 1 |
-| 410 | 0.0000 | 8.9744 | 6 |
-| 412 | -8.7413 | -8.7413 | 1 |
-| 414 | 0.0000 | 0.0000 | 6 |
-| 415 | 0.0000 | 12.2378 | 6 |
-| 418 | 0.0000 | 12.2378 | 6 |
-| 420 | -8.7413 | 0.0000 | 6 |
-| 423 | 0.0000 | 12.2378 | 6 |
-| 430 | -8.7413 | 0.0000 | 12 |
-| 510 | 0.0000 | 0.0000 | 5 |
-| 512 | -9.0909 | 0.0000 | 5 |
-| 515 | 0.0000 | 28.5714 | 5 |
-| 6431 | -0.6693 | 0.4480 | 6 |
+| 6450 | -0.4583 | 0.1609 | 6 |
 
 > **Nota (inconclusivo)**: A faixa de delta_pp varia amplamente entre tamanhos de corpus de teste (de negativos a positivos), indicando que o efeito do augmentation é instável nessa rodada. Resultado não conclusivo.
 
@@ -117,7 +104,7 @@ _Corpus de referência: 8034 amostras PAN 2012_
 
 ### O que sustenta
 
-- **E3 (LOO)**: F0.5 entre 93–97% com IC 95% bem acima de 0 na corrida de referência (total=23), sugerindo que o classificador generaliza dentro do corpus sintético.
+- **E3 (LOO)**: F0.5 entre 100.00% e 100.00% na corrida final de referência (total=41), sugerindo alta discriminabilidade interna do corpus sintético; não implica generalização externa.
 - **E1 (baseline PAN)**: LinearSVC sem subamostragem atinge F0.5 > 95% em N ≥ 20 mensagens, confirmando a replicação do resultado de Panzariello (2022).
 
 ### O que é diagnóstico

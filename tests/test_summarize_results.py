@@ -45,11 +45,11 @@ def test_retorna_string(tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_contem_status_em_analise(tmp_path: Path) -> None:
-    """Verifica que o relatório contém marcação 'análise' e identificador 'r10'."""
+def test_contem_status_final(tmp_path: Path) -> None:
+    """Verifica que o relatório contém marcação de resultado final consolidado."""
     resultado = summarize_r10_results(results_dir=str(tmp_path))
-    assert "análise" in resultado, "O relatório deve mencionar 'análise'"
-    assert "r10" in resultado, "O relatório deve mencionar 'r10'"
+    assert "Relatório final" in resultado, "O relatório deve mencionar status final"
+    assert "reports/final" in resultado, "O relatório deve mencionar a origem consolidada"
 
 
 def test_header_exato(tmp_path: Path) -> None:

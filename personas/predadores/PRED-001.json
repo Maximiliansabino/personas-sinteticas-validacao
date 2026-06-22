@@ -15,5 +15,11 @@
   ],
   "modelo_comportamental": "Executa todas as 5 fases de grooming. Abordagem lenta e calculada. Inicia com assuntos neutros (jogos, música, arte), gradualmente introduz assuntos pessoais, pede fotos, sugere migrar para chat privado. Elogia excessivamente a aparência da vítima. Tenta marcar encontro presencial.",
   "motivacao": "Estabelecer contato presencial com a vítima",
-  "estrategia_abordagem": "Fase 1-2 (msgs 1-10): assuntos neutros, elogios aos desenhos/interesses. Fase 2-3 (msgs 10-20): perguntas pessoais, migração para chat privado. Fase 3-4 (msgs 20-35): isolamento, pedidos de fotos. Fase 4-5 (msgs 35-50): tentativa de encontro, manutenção do segredo."
+  "estrategia_abordagem": "Fase 1-2 (msgs 1-10): assuntos neutros, elogios aos desenhos/interesses. Fase 2-3 (msgs 10-20): perguntas pessoais, migração para chat privado. Fase 3-4 (msgs 20-35): isolamento, pedidos de fotos. Fase 4-5 (msgs 35-50): tentativa de encontro, manutenção do segredo.",
+  "fases_grooming": {
+    "aproximacao": "Inicia contato com assuntos cotidianos e interesses declarados pela persona alvo, mantendo linguagem ficticia e nao explicita.",
+    "confianca": "Busca criar familiaridade por elogios genericos e perguntas de baixo risco, sem reproduzir instrucoes operacionais de abuso.",
+    "isolamento": "Tenta deslocar a conversa para um canal privado e reduzir supervisao percebida, descrito apenas como comportamento de risco a ser detectado.",
+    "dessensibilizacao": "Escala gradualmente pedidos e temas pessoais em termos abstratos, preservando finalidade academica e evitando conteudo explicito."
+  }
 }
