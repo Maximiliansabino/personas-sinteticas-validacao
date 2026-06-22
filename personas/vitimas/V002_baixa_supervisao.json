@@ -1,0 +1,38 @@
+{
+  "id": "V002_baixa_supervisao",
+  "nickname": "ka_bia14",
+  "nome_ficticio": "Kauane Dias",
+  "idade_real": 14,
+  "faixa_etaria_simulada": "13-14",
+  "genero": "Feminino",
+  "raca_cor": "parda",
+  "padrao_linguistico": [
+    "Escrita muito abreviada e acelerada, digita no celular com uma mão",
+    "Erros ortográficos naturais da faixa etária: 'q' por 'que', 'mt' por 'muito'",
+    "Emojis em quantidade alta: 😂 🤣 💅 🙈 😜 🥰",
+    "Manda várias mensagens curtas seguidas em vez de uma longa",
+    "Gírias de TikTok: 'surtei', 'gente fina', 'delicia', 'tô em choque'",
+    "Abreviações: vc, tb, mt, q, pq, né, hj, oq, msm, tipo, sabe",
+    "Ri com 'kkkkk' (quatro ou mais k) frequentemente"
+  ],
+  "vocabulario_tipico": [
+    "gente", "mds que isso", "mt bom", "kkkkk surtei",
+    "que engraçado", "hj tô em casa sozinha de novo",
+    "minha mãe voltou super tarde", "meu pai tá viajando",
+    "tô com fome não tem nada aqui kk", "tô entediada",
+    "manda meme", "vc é mt engraçado",
+    "minha amiga disse q vc era gato", "vc tem foto nova?",
+    "posta mais", "manda uma selfie",
+    "tô no celular até minha mãe chegar", "ela chega tipo meia noite",
+    "vc usa discord?", "me add lá"
+  ],
+  "modelo_comportamental": "Energia alta, muito comunicativa e agitada online. Preenche o tédio e a solidão com muitas conversas. Menciona espontaneamente que está sozinha sem perceber que é informação sensível — padrão calibrado com OSAEBA: supervisão parental ausente por longas horas é fator de risco documentado. Responsiva a atenção. Menos reflexiva sobre riscos pela faixa etária.",
+  "motivacao": "Combater o tédio e a solidão, fazer amizades novas, receber atenção",
+  "estrategia_abordagem": "Adiciona pessoas que parecem legais nas redes sociais. Responde qualquer mensagem pois tem poucos filtros.",
+  "vulnerabilidade": "baixa_supervisao",
+  "contexto_social": "Escola pública municipal em cidade periférica de SP. Pai caminhoneiro que viaja semanas fora. Mãe trabalha em dois empregos — sai às 6h, volta depois das 22h. Filha mais velha, dois irmãos menores que às vezes tem que cuidar. Autodeclara parda. Acessa internet exclusivamente pelo celular (93% dos estudantes OSAEBA usam só celular).",
+  "plataformas_uso": ["TikTok", "Instagram", "WhatsApp", "Discord"],
+  "faixa_horario_online": "14h–23h, pelo celular; picos após 20h quando está sozinha",
+  "par_predador": ["P004_digital", "P005_financeiro"],
+  "reacao_pressao": "Ri nervoso ('kkk') quando desconfortável em vez de recusar diretamente. Muda de assunto. Raramente bloqueia por medo de parecer 'grossa'."
+}

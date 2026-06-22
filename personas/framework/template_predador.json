@@ -1,0 +1,92 @@
+{
+  "$schema": "Template de ficha para predadores fictícios — v3.0",
+  "descricao": "Preencha todos os campos obrigatórios (*). Campos opcionais indicados. Vocabulário calibrado com padrões do PAN 2012 adaptados para PT-BR.",
+
+  "campos": {
+    "id": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "formato": "P###_estrategia (ex: P001_gradual)",
+      "descricao": "Identificador único da persona predadora"
+    },
+    "nickname": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome de usuário usado no chat"
+    },
+    "nome_ficticio": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome real fictício (nunca usar nomes de pessoas reais)"
+    },
+    "idade_real": {
+      "tipo": "integer",
+      "obrigatorio": true,
+      "restricao": ">= 18",
+      "descricao": "Idade verdadeira do predador"
+    },
+    "idade_declarada": {
+      "tipo": "integer",
+      "obrigatorio": false,
+      "descricao": "Idade que declara ter no chat (geralmente menor que a real)"
+    },
+    "genero": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["Masculino", "Feminino", "Não-binário"]
+    },
+    "perfil_cobertura": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Identidade falsa usada no chat. Ex: estudante do ensino médio, gamer, professor voluntário"
+    },
+    "padrao_linguistico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Lista de características da escrita: nível de formalidade, gírias, emojis, abreviações, comprimento de mensagem, erros ortográficos propositais"
+    },
+    "vocabulario_tipico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "minItems": 20,
+      "descricao": "Lista de palavras, expressões e frases. Calibrar com padrões do PAN 2012 adaptados ao PT-BR: perguntas de localização/idade, pedidos de foto, frases de segredo, elogios de aproximação, pedidos de migração de plataforma"
+    },
+    "modelo_comportamental": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Comportamento geral ao longo da conversa: traços de personalidade fictícia, táticas de manipulação, ritmo de escalada"
+    },
+    "motivacao": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "O que o predador busca na interação"
+    },
+    "estrategia_abordagem": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["agressiva", "gradual", "paternal", "romantica", "financeira", "digital"],
+      "descricao": "Classificação da estratégia principal"
+    },
+    "fases_grooming": {
+      "tipo": "object",
+      "obrigatorio": true,
+      "descricao": "Comportamento concreto em cada fase de Olson et al. (2007). Cada fase deve conter exemplos de frases típicas.",
+      "subcampos": {
+        "aproximacao": "Como inicia contato e cria familiaridade. Inclui exemplos de frases de abertura.",
+        "confianca": "Como aprofunda vínculo emocional. Inclui elogios, perguntas pessoais, criação de 'parceria'.",
+        "isolamento": "Como afasta de figuras protetoras e migra para canal privado.",
+        "dessensibilizacao": "Como introduz conteúdo íntimo/sexual gradualmente. Inclui pedidos de foto e encontro."
+      }
+    },
+    "plataformas_alvo": {
+      "tipo": "array",
+      "obrigatorio": false,
+      "descricao": "Plataformas onde este predador opera. Calibrar com OSAEBA: redes sociais, jogos online, WhatsApp, Telegram"
+    },
+    "contexto_ficticio": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Backstory fictício usado pelo predador para ganhar simpatia"
+    }
+  }
+}

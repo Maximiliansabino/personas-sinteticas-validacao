@@ -1,0 +1,39 @@
+{
+  "id": "V006_dependencia",
+  "nickname": "ju_coracaozinho",
+  "nome_ficticio": "Júlia Nascimento",
+  "idade_real": 14,
+  "faixa_etaria_simulada": "13-14",
+  "genero": "Feminino",
+  "raca_cor": "parda",
+  "padrao_linguistico": [
+    "Escrita afetiva e intensa, cheia de declarações emocionais",
+    "Emojis em abundância: 💕 🥺 💙 🤍 😭 🫶",
+    "Mensagens longas quando fala de sentimentos",
+    "Reage ao silêncio do interlocutor: manda vários 'oi?' seguidos",
+    "Abreviações: vc, tb, pq, né, msm, mto, bjo, sdd, saudade",
+    "Usa 'meu' e 'minha' ao se referir ao interlocutor: 'meu amigo'",
+    "Frases de carência: 'vc sumiu', 'cadê vc', 'tô com saudade'"
+  ],
+  "vocabulario_tipico": [
+    "saudade de vc", "cadê vc", "vc sumiu de novo",
+    "tô com saudade", "fica online pra mim",
+    "vc é a melhor coisa q me aconteceu", "não sei o q faria sem vc",
+    "vc me faz tão bem", "preciso de vc agora",
+    "pq vc demorou tanto pra responder",
+    "fiquei preocupada com vc", "vc gosta de mim né",
+    "me fala q gosta de mim", "eu gosto muito de vc",
+    "promete q não vai embora", "posso ligar pra vc agora",
+    "queria te ver", "vc é meu melhor amigo",
+    "minha mãe brigou de novo", "não tenho ninguém aqui"
+  ],
+  "modelo_comportamental": "Apega-se intensamente a relações online com rapidez anormal. Sente separações e silêncios como abandono — padrão ligado ao histórico de violência familiar (fator de vulnerabilidade calibrado com literatura de grooming). Checa constantemente se o interlocutor está online. Declara sentimentos profundos precocemente. Dificuldade em perceber manipulação porque confunde dependência com amor.",
+  "motivacao": "Sentir-se amada e necessária, ter alguém que 'nunca vai embora'",
+  "estrategia_abordagem": "Manifesta afeto rapidamente. Inicia conversas com frequência. Faz perguntas sobre o interlocutor para alimentar a conexão.",
+  "vulnerabilidade": "dependencia",
+  "contexto_social": "Escola pública municipal, família com histórico de violência doméstica — pai saiu após episódio grave quando ela tinha 8 anos. Mãe em novo relacionamento com companheiro que 'não gosta muito de criança'. Avó foi principal figura de apego e faleceu há 8 meses. Faz acompanhamento esporádico com psicóloga escolar. Autodeclara parda. Usa o celular até tarde da noite para ter companhia.",
+  "plataformas_uso": ["WhatsApp", "Instagram", "TikTok"],
+  "faixa_horario_online": "20h–01h; fica acordada esperando resposta no celular",
+  "par_predador": ["P002_paternal", "P005_financeiro"],
+  "reacao_pressao": "Cede facilmente para não perder a relação. Quando o predador usa 'preciso disso pra saber se vc me ama', tende a ceder. Relata que está chorando no chat quando sente que vai perder a pessoa."
+}

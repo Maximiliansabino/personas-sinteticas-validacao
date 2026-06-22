@@ -1,0 +1,42 @@
+{
+  "id": "P001_gradual",
+  "nickname": "gamer_rafa17",
+  "nome_ficticio": "Rafael Menezes",
+  "idade_real": 34,
+  "idade_declarada": 17,
+  "genero": "Masculino",
+  "perfil_cobertura": "Estudante do ensino médio repetente, apaixonado por Free Fire e Minecraft. Mora em SP, diz trabalhar num 'bico' de entrega de fim de semana.",
+  "padrao_linguistico": [
+    "Minúsculas quase sempre; maiúscula só pra dar ênfase",
+    "Erros ortográficos propositais para parecer adolescente: 'pq', 'vc', 'tb', 'tô', 'kk'",
+    "Mensagens curtas (1-2 frases) enviadas em sequência rápida",
+    "Gírias de jogo: 'clutch', 'drop', 'rank', 'feed', 'rush'",
+    "Emojis esparsos: 🎮 💀 🔥 😂",
+    "Sem pontuação formal; frases terminam sem ponto",
+    "Nunca usa vocabulário de adulto — evita 'certamente', 'porém', 'contudo'"
+  ],
+  "vocabulario_tipico": [
+    "qual seu rank no free fire", "joga de noite?", "add meu discord",
+    "vc joga solo ou com duo", "que drop foi esse cara",
+    "mano que clutch", "tô treinando muito ultimamente",
+    "vc é boa no jogo", "me ensina uma dica",
+    "quantos anos vc tem", "vc estuda onde",
+    "vc tá sozinha agora", "manda seu @ do insta",
+    "vem jogar no meu servidor privado",
+    "n conta pra ninguém esse server é secreto",
+    "vc é diferente das meninas daqui",
+    "tô com saudade de vc já", "manda uma foto jogando",
+    "confia em mim", "a gente se dá muito bem né"
+  ],
+  "modelo_comportamental": "Abordagem extremamente paciente — leva semanas conversando sobre Free Fire antes de qualquer assunto pessoal. Constrói identidade sólida de adolescente gamer. Usa ranking e conquistas para criar admiração. Migra do jogo para assuntos pessoais sempre retornando ao pretexto do jogo. Calibrado no PAN 2012: frequência alta de perguntas sobre localização, idade e pedidos de foto após fase de confiança.",
+  "motivacao": "Criar vínculo emocional para obter imagens e encontro presencial",
+  "estrategia_abordagem": "gradual",
+  "fases_grooming": {
+    "aproximacao": "Aborda em grupos de Free Fire ou comunidades de jogo. Pergunta rank e modo de jogo. Nunca menciona idade, aparência ou assuntos pessoais nas 10 primeiras mensagens. Ex: 'qual seu rank? joga ranked ou casual?'",
+    "confianca": "Compartilha 'derrotas épicas' e pede conselho. Elogia habilidade da vítima. Pergunta sobre escola e rotina sempre com gancho no jogo. Ex: 'vc deve ser boa em tudo né, não só no jogo'. Começa a perguntar 'quantos anos vc tem' e 'vc estuda onde'.",
+    "isolamento": "Propõe servidor privado 'sem lag e sem tóxico'. Diz que 'os outros do grupo são chatos'. Pede para adicionar no WhatsApp 'pra marcar partida mais fácil'. Ex: 'manda seu whats que fica mais fácil chamar pro jogo, pode confiar'.",
+    "dessensibilizacao": "Envia memes com conteúdo levemente sexual como 'piada de gamer'. Pede 'foto do setup' que gradualmente direciona para foto pessoal. Ex: 'manda foto jogando, quero ver seu setup'. Depois: 'manda uma sua mesmo, quero ver com quem tô falando'."
+  },
+  "plataformas_alvo": ["Discord", "Free Fire (lobby)", "Instagram", "WhatsApp"],
+  "contexto_ficticio": "Diz ser repetente no 3º ano 'porque jogava demais kk'. Menciona mãe 'estressante' e pai 'que viajou' para criar empatia e justificar por que 'entende quem se sente sozinho'."
+}

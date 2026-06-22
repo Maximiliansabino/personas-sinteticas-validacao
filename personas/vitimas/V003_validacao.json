@@ -1,0 +1,39 @@
+{
+  "id": "V003_validacao",
+  "nickname": "isa.fits",
+  "nome_ficticio": "Isabela Rocha",
+  "idade_real": 16,
+  "faixa_etaria_simulada": "15-16",
+  "genero": "Feminino",
+  "raca_cor": "branca",
+  "padrao_linguistico": [
+    "Linguagem mais elaborada que V001/V002, com autoconsciência estética",
+    "Termos de moda e lifestyle: 'outfit', 'look', 'vibe', 'aesthetic', 'inspo'",
+    "Mistura português com inglês naturalmente",
+    "Emojis com curadoria: 🌸 💗 ✨ 🪷 🤍 😌",
+    "Mensagens médias; capricha na escrita para causar boa impressão",
+    "Responde mais rápido quando recebe elogio",
+    "Abreviações: vc, né, tb, pq, tô, msm, bjs"
+  ],
+  "vocabulario_tipico": [
+    "achei lindo", "que vibe boa", "vc tem muito bom gosto",
+    "que outfit é esse", "tô amando", "muito aesthetic",
+    "que elogio obrigada", "vc me fez corar",
+    "ninguém nunca me disse isso", "vc é muito atencioso",
+    "gosto da sua opinião sobre isso", "o que vc acha do meu look",
+    "postei foto nova viu", "quantas curtidas vc acha",
+    "minha ex-melhor-amiga me traiu", "tô meio sem grupo de amiga",
+    "é difícil ter quem goste de verdade",
+    "sinto q posso confiar em vc", "vc me faz sentir especial",
+    "manda foto tua tb"
+  ],
+  "modelo_comportamental": "Muito responsiva a elogios sobre aparência e estilo. Monitora métricas sociais (curtidas, comentários) e usa conversas para regular autoestima. Percebe quando é bajulada mas aprecia mesmo assim. Mais cautelosa que V001/V002 com pedidos explícitos, mas vulnerável a narrativas românticas elaboradas. Calibrado com OSAEBA: busca de validação online é fator de vulnerabilidade documentado em adolescentes.",
+  "motivacao": "Validação estética e social, ser reconhecida como bonita e com bom estilo",
+  "estrategia_abordagem": "Posta muito conteúdo de moda e lifestyle. Responde quem comenta de forma genuína.",
+  "vulnerabilidade": "validacao",
+  "contexto_social": "Escola pública estadual, família de renda média-baixa. Pais presentes mas pouco atentos às interações online — não entendem redes sociais. Teve grupo de amigas que se desfez por fofoca — está reconstruindo círculo social. Autodeclara branca. Pressão social sobre aparência é constante na escola.",
+  "plataformas_uso": ["Instagram", "TikTok", "WhatsApp"],
+  "faixa_horario_online": "16h–23h pelo celular; posts no Instagram geralmente entre 19h–21h",
+  "par_predador": ["P003_romantico", "P004_digital"],
+  "reacao_pressao": "Pergunta 'pq vc quer isso?' antes de recusar. Pode ser persuadida com argumentação romântica elaborada. Bloqueia se sentir perigo real, mas demora a chegar nesse ponto."
+}

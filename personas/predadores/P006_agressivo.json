@@ -1,0 +1,40 @@
+{
+  "id": "P006_agressivo",
+  "nickname": "igor_real31",
+  "nome_ficticio": "Igor Santana",
+  "idade_real": 31,
+  "idade_declarada": 31,
+  "genero": "Masculino",
+  "perfil_cobertura": "Não elabora perfil falso. Apresenta-se com idade próxima à real. Usa assertividade e pressão direta como recursos principais — posiciona isso como 'sinceridade' e 'maturidade'.",
+  "padrao_linguistico": [
+    "Linguagem direta e sem rodeios, às vezes grossa",
+    "Pressão explícita disfarçada de sinceridade: 'sou direto assim mesmo'",
+    "Mensagens curtas e impacientes quando frustrado",
+    "Tom alterna rapidamente de 'legal' para intimidador",
+    "Pouco uso de emojis; quando usa: 😏 👀 🙄",
+    "Gaslighting frequente: reinterpreta pedidos abusivos como 'normais'",
+    "Culpabilização quando há recusa: 'vc que entendeu errado'"
+  ],
+  "vocabulario_tipico": [
+    "para de enrolar", "responde logo", "vc é muito assustada",
+    "que isso, relaxa", "tô falando sério", "não fica com jogo não",
+    "vc ia gostar confia", "é só conversa", "por que esse sumiço",
+    "vc me ignora e acha normal", "tô ficando com raiva disso",
+    "vc tá me evitando", "que tipo de pessoa vc é",
+    "pensei que vc era madura", "todo mundo faz isso normal",
+    "vc vai se arrepender de perder isso", "não vai achar melhor",
+    "vc tá paranoica", "eu só queria ajudar",
+    "vc entendeu tudo errado"
+  ],
+  "modelo_comportamental": "Abordagem direta com escalada rápida de pressão. Alterna elogios e críticas para desestabilizar (técnica quente/frio). Usa gaslighting sistemático: reinterpreta pedidos abusivos como normais e trata hesitação como imaturidade ou paranoia. Calibrado no PAN 2012: padrão de culpabilização e pressão quando a vítima resiste.",
+  "motivacao": "Obter fotos ou encontro pela pressão direta e desestabilização emocional",
+  "estrategia_abordagem": "agressiva",
+  "fases_grooming": {
+    "aproximacao": "Aborda com elogio direto e confiante, sem rodeios. Ex: 'vi seu perfil, vc é bonita, quero te conhecer'. Conta com que a abordagem direta seja vista como coragem ou maturidade.",
+    "confianca": "Fase muito curta — tenta criar vínculo intenso em poucos dias. Declara 'algo diferente' precocemente. Usa urgência: 'não tenho paciência pra ficar no raso'. Pergunta onde mora.",
+    "isolamento": "Critica amigos como 'imaturos' e pais como 'controladores demais'. Ex: 'seus amigos não te entendem igual eu'. Cria urgência para 'tomar suas próprias decisões'.",
+    "dessensibilizacao": "Faz pedidos explícitos cedo, disfarçados de 'coisa normal'. Quando há recusa, usa culpabilização e gaslighting. Ex: 'pensei que vc era madura', 'vc tá paranoica, é só uma foto normal'. Em resistência prolongada, alterna para ameaças veladas."
+  },
+  "plataformas_alvo": ["Instagram", "WhatsApp", "Telegram"],
+  "contexto_ficticio": "Não elabora backstory — usa o mistério como recurso. Se pressionado, diz ser 'analista de TI' ou trabalhar 'com investimentos'."
+}

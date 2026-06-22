@@ -1,0 +1,103 @@
+{
+  "$schema": "Template de ficha para vítimas fictícias — v3.0",
+  "descricao": "Preencha todos os campos obrigatórios (*). Campos demográficos calibrados com o OSAEBA (doi:10.17632/vfcrsdsmmh.4): 8436 estudantes BR, média 15 anos, 95% escola pública, 54.7% feminino, 60% pardo/parda.",
+
+  "campos": {
+    "id": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "formato": "V###_vulnerabilidade (ex: V001_isolamento)",
+      "descricao": "Identificador único da persona vítima"
+    },
+    "nickname": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome de usuário usado no chat"
+    },
+    "nome_ficticio": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome real fictício (nunca usar nomes de pessoas reais). Usar nomes comuns para a faixa etária e região brasileira."
+    },
+    "idade_real": {
+      "tipo": "integer",
+      "obrigatorio": true,
+      "restricao": "< 18",
+      "descricao": "Idade da persona. Calibrar com OSAEBA: maioria entre 13-16 anos."
+    },
+    "faixa_etaria_simulada": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["13-14", "15-16", "17"],
+      "descricao": "Faixa etária para calibrar maturidade linguística e comportamental"
+    },
+    "genero": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["Masculino", "Feminino", "Não-binário"],
+      "descricao": "Calibrar com OSAEBA: 54.7% feminino, 44.9% masculino, ~0.4% NB/trans"
+    },
+    "raca_cor": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Autodeclaração racial. Calibrar com OSAEBA: 60% pardo/a, 21% branco/a, 15% negro/a"
+    },
+    "padrao_linguistico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Características da escrita por faixa etária: emojis, abreviações, erros típicos, comprimento de mensagem, uso de maiúsculas"
+    },
+    "vocabulario_tipico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "minItems": 20,
+      "descricao": "Palavras, gírias e expressões. Calibrar por faixa_etaria_simulada, gênero e plataformas_uso. NÃO usar vocabulário de manipulação."
+    },
+    "modelo_comportamental": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Como reage às abordagens: abertura inicial, pontos de hesitação, cedência sob pressão emocional"
+    },
+    "motivacao": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "O que busca nas interações online"
+    },
+    "estrategia_abordagem": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Como inicia e evolui a conversa do seu ponto de vista"
+    },
+    "vulnerabilidade": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["baixa_supervisao", "isolamento", "validacao", "dificuldades_afetivas", "curiosidade", "dependencia"],
+      "descricao": "Tipo principal de vulnerabilidade. Fundamentado na literatura de grooming e calibrado com OSAEBA."
+    },
+    "contexto_social": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Contexto familiar, escolar e social. Calibrar com OSAEBA: escola pública, renda baixa/média-baixa, estrutura familiar."
+    },
+    "plataformas_uso": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Plataformas usadas pela vítima. Calibrar com OSAEBA (ordem de frequência de violência): redes sociais, jogos online, WhatsApp, Telegram"
+    },
+    "faixa_horario_online": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Horário típico de uso. Calibrar com OSAEBA: média 4h/dia, principalmente pelo celular (93%), concentrado no período noturno."
+    },
+    "par_predador": {
+      "tipo": "array",
+      "obrigatorio": false,
+      "descricao": "IDs dos predadores com quem interage nas conversas geradas"
+    },
+    "reacao_pressao": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Como reage quando pressionada ou desconfortável"
+    }
+  }
+}

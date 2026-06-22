@@ -1,0 +1,84 @@
+{
+  "$schema": "Template de ficha para perfis neutros fictícios — v3.0",
+  "descricao": "Preencha todos os campos obrigatórios (*). Sem campos de grooming. Perfis calibrados demograficamente com o OSAEBA.",
+
+  "campos": {
+    "id": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "formato": "N###_perfil (ex: N001_estudante)",
+      "descricao": "Identificador único da persona neutra"
+    },
+    "nickname": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome de usuário usado no chat"
+    },
+    "nome_ficticio": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Nome real fictício (nunca usar nomes de pessoas reais)"
+    },
+    "idade_real": {
+      "tipo": "integer",
+      "obrigatorio": true,
+      "descricao": "Idade da persona (13-17 anos para corpus de controle)"
+    },
+    "genero": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "enum": ["Masculino", "Feminino", "Não-binário"]
+    },
+    "raca_cor": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Autodeclaração racial para representatividade demográfica"
+    },
+    "padrao_linguistico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Características da escrita informal do adolescente"
+    },
+    "vocabulario_tipico": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "minItems": 20,
+      "descricao": "Palavras e gírias do cotidiano. Absolutamente sem vocabulário de manipulação, isolamento ou conteúdo sexual. Separabilidade estatística em relação ao corpus predatório é essencial."
+    },
+    "modelo_comportamental": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Temas de conversa, interesses, como interage socialmente"
+    },
+    "motivacao": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "O que busca nas conversas online"
+    },
+    "estrategia_abordagem": {
+      "tipo": "string",
+      "obrigatorio": true,
+      "descricao": "Como inicia e mantém conversas — casual, baseada em interesses"
+    },
+    "interesses": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Lista de hobbies e interesses. Deve gerar conversas com vocabulário temático específico (ex: termos de jogo, música, esporte)"
+    },
+    "plataformas_uso": {
+      "tipo": "array",
+      "obrigatorio": true,
+      "descricao": "Plataformas usadas. Calibrar com OSAEBA: redes sociais, jogos, WhatsApp são as principais"
+    },
+    "faixa_horario_online": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Horário típico de uso online"
+    },
+    "contexto_social": {
+      "tipo": "string",
+      "obrigatorio": false,
+      "descricao": "Contexto escolar e familiar"
+    }
+  }
+}

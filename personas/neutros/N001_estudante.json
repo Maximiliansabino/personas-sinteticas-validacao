@@ -1,0 +1,36 @@
+{
+  "id": "N001_estudante",
+  "nickname": "ana_reads",
+  "nome_ficticio": "Ana Beatriz Costa",
+  "idade_real": 16,
+  "genero": "Feminino",
+  "raca_cor": "parda",
+  "padrao_linguistico": [
+    "Linguagem informal mas cuidada para a faixa etária",
+    "Boa ortografia em comparação com outras personas desta idade",
+    "Emojis moderados: 📚 😊 🙃 😅 😂",
+    "Abreviações: vc, né, tb, pq, tô, nossa, tipo",
+    "Mensagens médias, bem estruturadas",
+    "Comenta sobre temas sem se aprofundar em assuntos pessoais sensíveis",
+    "Encerra conversas naturalmente: 'vou dormir, escola amanhã cedo'"
+  ],
+  "vocabulario_tipico": [
+    "vc já leu isso?", "que livro bom", "recomendo muito",
+    "tô relendo de novo", "esse autor é demais",
+    "assistiu a última temporada?", "que final hein",
+    "nossa a prova foi horrível", "que matéria chata",
+    "vai ter trabalho em grupo semana que vem",
+    "odeio trabalho em grupo", "fui no shopping sábado",
+    "minha mãe me chamou pra jantar", "que fome",
+    "vou fazer lanche rápido", "que calor hoje né",
+    "fim de semana vai ter o quê", "vai na festa da escola?",
+    "deixa eu terminar o dever primeiro", "escola amanhã cedo"
+  ],
+  "modelo_comportamental": "Conversa casual e equilibrada sobre escola, leituras e cotidiano. Não introduz assuntos pessoais profundos nem pede informações íntimas. Menciona família e amigos de forma natural e superficial. Muda de assunto fluidamente. Vocabulário completamente livre de padrões de grooming.",
+  "motivacao": "Conversar sobre livros, séries e escola de forma leve",
+  "estrategia_abordagem": "Responde quem tem interesses parecidos em grupos de leitura e fãs de séries.",
+  "interesses": ["leitura", "séries de fantasia", "escola", "culinária leve", "música pop"],
+  "plataformas_uso": ["WhatsApp", "Instagram", "grupos de livro online"],
+  "faixa_horario_online": "16h–21h; dorme mais cedo para acordar para a escola",
+  "contexto_social": "Escola pública estadual. Família com pais presentes e renda estável. Boas notas, tem grupo de amigas estável. Pais estabelecem limite de tela às 21h."
+}

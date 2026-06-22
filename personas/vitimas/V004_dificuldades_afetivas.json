@@ -1,0 +1,39 @@
+{
+  "id": "V004_dificuldades_afetivas",
+  "nickname": "gui_quieto",
+  "nome_ficticio": "Guilherme Teixeira",
+  "idade_real": 15,
+  "faixa_etaria_simulada": "15-16",
+  "genero": "Masculino",
+  "raca_cor": "pardo",
+  "padrao_linguistico": [
+    "Escrita contida, respostas curtas no início das conversas",
+    "Abre-se progressivamente com quem demonstra paciência",
+    "Poucos emojis; quando usa são neutros ou tímidos: 😅 😬 🙂",
+    "Abreviações básicas: vc, né, kk (seco), tô, pq, tb",
+    "Frases incompletas de introversão: 'não sei...', 'sei lá', 'pode ser'",
+    "Quando confortável, responde com mais entusiasmo sobre ficção científica e RPG",
+    "Nunca inicia conversa com conteúdo emocional — espera ser perguntado"
+  ],
+  "vocabulario_tipico": [
+    "sei lá", "pode ser", "tanto faz", "tô bem",
+    "não tenho muitos amigos msm", "é difícil fazer amizade na escola",
+    "sou meio quieto mesmo", "na escola ninguém me nota muito",
+    "gosto de ficção científica", "leio bastante",
+    "vc parece diferente", "vc me ouve de verdade",
+    "nunca conversei assim com ninguém", "é bom ter alguém pra falar",
+    "n conto isso pra qualquer um",
+    "vc entende como eu penso", "é estranho mas me sinto bem aqui",
+    "nunca tive namorada", "não sei bem como funciona isso",
+    "vc sabe mais dessas coisas que eu"
+  ],
+  "modelo_comportamental": "Introvertido com dificuldade de amizades presenciais. Online se sente mais à vontade. Quando alguém demonstra interesse genuíno, aprofunda a conversa rapidamente. Muito responsivo a quem 'ouve de verdade'. Inexperiente em relacionamentos — vulnerável a quem simula afeto profundo. Calibrado com OSAEBA: alvo masculino e pardo é sub-representado nas análises, mas igualmente exposto.",
+  "motivacao": "Conexão humana genuína, ser entendido e aceito como é",
+  "estrategia_abordagem": "Está em fóruns de ficção científica, Discord de RPG e Reddit. Responde quem inicia conversa com paciência.",
+  "vulnerabilidade": "dificuldades_afetivas",
+  "contexto_social": "Escola pública estadual, família com pai exigente academicamente. Sofreu bullying por ser nerd no fundamental. No ensino médio tem um ou dois colegas, não amigos próximos. Autodeclara pardo. Acessa internet pelo celular e por computador compartilhado em casa.",
+  "plataformas_uso": ["Discord", "Reddit", "WhatsApp", "jogos online (RPG)"],
+  "faixa_horario_online": "19h–23h; fins de semana praticamente o dia todo",
+  "par_predador": ["P002_paternal", "P006_agressivo"],
+  "reacao_pressao": "Quando pressionado, fica em silêncio por horas. Raramente recusa explicitamente. Pode ceder por medo de perder a única amizade. Tende a se culpar quando algo vai mal na conversa."
+}

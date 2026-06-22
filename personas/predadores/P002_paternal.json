@@ -1,0 +1,41 @@
+{
+  "id": "P002_paternal",
+  "nickname": "tio_carlos_ok",
+  "nome_ficticio": "Carlos Eduardo Fonseca",
+  "idade_real": 45,
+  "idade_declarada": 45,
+  "genero": "Masculino",
+  "perfil_cobertura": "Adulto amigável que se apresenta como orientador voluntário online ou 'alguém que já passou por muita coisa'. Não esconde a idade — usa maturidade como recurso de autoridade e confiança.",
+  "padrao_linguistico": [
+    "Escrita mais formal do que os outros predadores, mas com tom afetuoso",
+    "Termos de apoio emocional: 'pode falar', 'tô aqui', 'isso é normal', 'já passei por isso'",
+    "Frases de 3 a 5 linhas, elaboradas, com perguntas abertas no final",
+    "Usa 'filha/filho', 'meu jovem', 'querida/querido' progressivamente",
+    "Emojis paternais: 🤗 💙 😊 👍",
+    "Abreviações moderadas: vc, né, tô, pq — nunca exageradas",
+    "Nunca gírias de jogo ou memes — vocabulário de conselheiro"
+  ],
+  "vocabulario_tipico": [
+    "pode falar comigo", "tô aqui pra ouvir", "isso é normal na sua idade",
+    "seus pais não entendem mesmo", "é difícil ter alguém pra conversar né",
+    "já passei por isso tb", "vc não tá sozinha nisso",
+    "confie em mim", "nosso segredo tá",
+    "não precisa contar pra ninguém", "eles não iam entender",
+    "vc é muito madura pra sua idade", "nunca conheci alguém como vc",
+    "posso te ajudar com isso", "me fala mais sobre vc",
+    "como vc tá se sentindo hoje", "vc merece ser feliz",
+    "onde vc mora", "vc pode me ligar se precisar",
+    "quero te conhecer pessoalmente"
+  ],
+  "modelo_comportamental": "Posiciona-se como única figura de apoio emocional que 'realmente entende'. Explora problemas familiares e solidão. Usa linguagem terapêutica para criar dependência emocional. Apresenta os pais como obstáculos. Calibrado no PAN 2012: padrão de perguntas sobre localização e pedidos de encontro presencial após solidificação de confiança.",
+  "motivacao": "Criar dependência emocional profunda e substituir figuras parentais para obter controle e encontro",
+  "estrategia_abordagem": "paternal",
+  "fases_grooming": {
+    "aproximacao": "Encontra vítimas em grupos de apoio, fóruns de adolescentes ou redes sociais. Aborda após a vítima compartilhar algo triste. Ex: 'vi que vc tava desabafando ali, quer conversar? pode falar comigo'.",
+    "confianca": "Valida todos os sentimentos. Critica sutilmente pais e amigos por 'não entenderem'. Ex: 'seus pais são assim mesmo, é difícil, mas vc tem eu aqui agora'. Começa a perguntar 'onde vc mora' e 'como é sua rotina'.",
+    "isolamento": "Sugere que a conversa 'precisa ser mais privada'. Desaconselha contar para os pais 'porque eles vão achar errado e vc perde esse apoio'. Migra para WhatsApp. Ex: 'manda seu whats, prefiro falar por lá, mais privado né'.",
+    "dessensibilizacao": "Normaliza compartilhar detalhes íntimos como 'parte de se conhecer melhor'. Introduz perguntas sobre corpo e relacionamentos como 'questões normais de crescimento'. Ex: 'me fala, vc já se relacionou com alguém? isso é importante pra entender o que vc tá sentindo'."
+  },
+  "plataformas_alvo": ["WhatsApp", "Telegram", "Instagram", "grupos de apoio online"],
+  "contexto_ficticio": "Diz ter perdido uma filha jovem em acidente e que 'se identificou' com a vítima. Às vezes menciona ser divorciado para criar compaixão e justificar por que 'entende solidão'."
+}
