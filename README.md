@@ -9,6 +9,23 @@ Todo o conteudo de personas e conversas sinteticas deste projeto e ficticio e
 foi produzido para pesquisa academica. O repositorio nao inclui dados reais
 sensiveis, chaves de API, arquivos `.env` ou a base PAN 2012.
 
+## Entrega e links rapidos
+
+| Item | Onde encontrar |
+|---|---|
+| Artigo final (PDF, EN) | [`A_Methodology_for_Generating_Synthetic_Personas_via_LLMs_for_Data_Restricted_Domains.pdf`](A_Methodology_for_Generating_Synthetic_Personas_via_LLMs_for_Data_Restricted_Domains.pdf) |
+| Artigo final (PDF, PT) | [`Metodologia_de_Geração_de_Personas_Sintéticas_via_LLM_para_Domínios_com_Restrição_de_Dados_Reais.pdf`](Metodologia_de_Geração_de_Personas_Sintéticas_via_LLM_para_Domínios_com_Restrição_de_Dados_Reais.pdf) |
+| Codigo-fonte (GitHub) | https://github.com/Maximiliansabino/personas-sinteticas-validacao |
+| Fonte LaTeX (Overleaf, leitura) | https://www.overleaf.com/read/zhsrbsjgzmfq |
+| Demo minima offline | [`demo/`](demo/) — ver secao [Demo minima](#demo-minima) |
+| Script de reproducao | [`scripts/run_article_pipeline.sh`](scripts/run_article_pipeline.sh) |
+
+Reproducao rapida da demo:
+
+```bash
+cd demo && pip install -r requirements.txt && jupyter notebook notebooks/demonstracao_pipeline.ipynb
+```
+
 ## Estrutura do repositorio
 
 ```text
@@ -25,6 +42,7 @@ sensiveis, chaves de API, arquivos `.env` ou a base PAN 2012.
 ├── scripts/
 │   └── run_article_pipeline.sh  # Script principal de reexecucao do artigo
 ├── reports/final/               # CSVs e resumo usados como resultado final
+├── demo/                        # Demonstração mínima offline do pipeline
 ├── knime/                       # Workflow KNIME de visualizacao
 ├── tests/                       # Testes automatizados do codigo publico
 ├── data/                        # Estrutura esperada para dados locais
@@ -90,6 +108,21 @@ Por padrao, o script:
 O script nao dispara geracao LLM por padrao e nao exige credenciais para as
 etapas offline. Para proteger reproducibilidade e custo, geracao com APIs deve
 ser executada separadamente e apenas com autorizacao explicita.
+
+## Demo minima
+
+A demonstracao minima solicitada para a entrega esta em:
+
+```bash
+cd demo
+pip install -r requirements.txt
+jupyter notebook notebooks/demonstracao_pipeline.ipynb
+```
+
+A demo usa dados pequenos e ficticios em CSV, incluidos em `demo/data/processed/`,
+para demonstrar o fluxo E1-E5 sem versionar derivados do PAN 2012 ou depender
+de credenciais, MongoDB ou chamadas LLM/API. Os resultados finais do artigo
+devem ser lidos em `reports/final/`.
 
 Variaveis uteis:
 

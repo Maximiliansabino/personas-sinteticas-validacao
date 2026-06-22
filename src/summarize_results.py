@@ -180,8 +180,8 @@ def _summarize_e2(df_e2) -> str:
 def _summarize_e3(df_e3) -> str:
     """Gera seção markdown do E3 (leave-one-out com IC 95%).
 
-    Filtra a corrida com total=23 (maior corrida estável com intervalo de
-    confiança disponível, timestamp 20260512_1403).
+    Seleciona a corrida de referência com maior `total` disponível, que
+    corresponde ao corpus sintético final mais completo.
 
     Parâmetros
     ----------
@@ -201,24 +201,14 @@ def _summarize_e3(df_e3) -> str:
         lines.append("_Sem dados E3 disponíveis._")
         return "\n".join(lines)
 
-    # Filtrar corrida total=23 (maior corrida estável com IC)
-    df_23 = df_e3[df_e3["total"] == 23].copy()
-    if df_23.empty:
-        # Fallback: maior total disponível
-        total_ref = int(df_e3["total"].max())
-        df_23 = df_e3[df_e3["total"] == total_ref].copy()
-        logger.warning(
-            "E3: total=23 não encontrado; usando total=%d como fallback", total_ref
-        )
-    else:
-        total_ref = 23
+    total_ref = int(df_e3["total"].max())
+    df_ref = df_e3[df_e3["total"] == total_ref].copy()
 
-    # Verificar se todos os ids pertencem ao mesmo timestamp (20260512_1403)
-    prefixos = df_23["experiment_id"].str.extract(r"(\d{8}_\d{4})")[0].unique()
+    prefixos = df_ref["experiment_id"].str.extract(r"(\d{8}_\d{6})")[0].unique()
     logger.info("E3: corrida total=%d — prefixos de timestamp: %s", total_ref, prefixos)
 
-    predatory = int(df_23["predatory"].max())
-    normal = int(df_23["normal"].max())
+    predatory = int(df_ref["predatory"].max())
+    normal = int(df_ref["normal"].max())
     lines.append(
         f"_Corrida de referência: total={total_ref} "
         f"({predatory} predatórias, {normal} normais)_"
@@ -228,7 +218,7 @@ def _summarize_e3(df_e3) -> str:
         "| N msgs | Classificador | F0.5 | IC inf | IC sup |"
     )
     lines.append("|--------|--------------|------|--------|--------|")
-    for _, row in df_23.sort_values("n_msgs").iterrows():
+    for _, row in df_ref.sort_values("n_msgs").iterrows():
         lines.append(
             f"| {int(row['n_msgs'])} "
             f"| {row['classifier']} "
@@ -397,11 +387,21 @@ def _sintese(df_e3, df_e4, df_e5) -> str:
 
     lines.append("### O que sustenta")
     lines.append("")
-    lines.append(
-        "- **E3 (LOO)**: F0.5 entre 93–97% com IC 95% bem acima de 0 na corrida "
-        "de referência (total=23), sugerindo que o classificador generaliza "
-        "dentro do corpus sintético."
-    )
+    if not df_e3.empty:
+        total_e3 = int(df_e3["total"].max())
+        df_e3_ref = df_e3[df_e3["total"] == total_e3]
+        f05_min = float(df_e3_ref["f05"].min())
+        f05_max = float(df_e3_ref["f05"].max())
+        lines.append(
+            f"- **E3 (LOO)**: F0.5 entre {_pct(f05_min)} e {_pct(f05_max)} "
+            f"na corrida final de referência (total={total_e3}), sugerindo alta "
+            "discriminabilidade interna do corpus sintético; não implica "
+            "generalização externa."
+        )
+    else:
+        lines.append(
+            "- **E3 (LOO)**: sem dados disponíveis no diretório de resultados."
+        )
     lines.append(
         "- **E1 (baseline PAN)**: LinearSVC sem subamostragem atinge F0.5 > 95% "
         "em N ≥ 20 mensagens, confirmando a replicação do resultado de Panzariello (2022)."
@@ -499,8 +499,8 @@ def summarize_r10_results(
     sections.append(f"# {HEADER_AVISO}")
     sections.append("")
     sections.append(
-        "_Relatório gerado automaticamente por `src/summarize_results.py`. "
-        "Os valores abaixo refletem a décima rodada (r10) e estão sujeitos a revisão._"
+        "_Relatório final gerado automaticamente por `src/summarize_results.py` "
+        "a partir dos CSVs consolidados em `reports/final/`._"
     )
     sections.append("")
 
